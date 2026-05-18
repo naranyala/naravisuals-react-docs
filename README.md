@@ -1,4 +1,4 @@
-# 🌌 Naravisuals Web (docts)
+# Naravisuals Web (docts)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Bun](https://img.shields.io/badge/Runtime-Bun-black?logo=bun)](https://bun.sh)
@@ -10,7 +10,7 @@
 
 ---
 
-## 🚀 The Core Philosophy: "Docs as Data"
+## The Core Philosophy: "Docs as Data"
 
 Most SSGs treat documentation as a series of HTML pages. Naravisuals Web treats documentation as **structured data**. 
 
@@ -21,12 +21,12 @@ The build engine parses Markdown and generates a set of TypeScript files in `src
 
 ---
 
-## 🛠️ Technical Architecture
+## Technical Architecture
 
 ### 1. The Hybrid Build Pipeline
 The project employs a dual-engine approach to balance flexibility and speed.
 
-#### 🟦 TypeScript Engine (Bun)
+#### TypeScript Engine (Bun)
 The primary engine located in `scripts/`, designed for rapid iteration and easy plugin development.
 - **Orchestration**: The `DocumentationCompiler` manages the full lifecycle.
 - **The Pipeline**:
@@ -45,18 +45,18 @@ The primary engine located in `scripts/`, designed for rapid iteration and easy 
        - Writes content as TS constants in `src/generated/`.
        - Generates SEO assets (`sitemap.xml`, `robots.txt`).
 
-#### 🟧 Rust Engine (`scripts-rs`)
+#### Rust Engine (`scripts-rs`)
 A high-performance implementation of the compiler logic written in Rust, intended for massive documentation sets and optimized CI/CD pipelines.
 
 ### 2. The Frontend (React 19)
 A sophisticated SPA that renders the generated data.
 
-#### 💉 Dependency Injection (DI) Container
+#### Dependency Injection (DI) Container
 To maintain a clean separation between UI and browser APIs, the frontend uses a **Service Container** (`src/services/container.ts`).
 - **Abstracted Services**: `IStorageService`, `IRouterService`, `IDomService`, `IThemeService`, and `ISidebarService`.
 - **Benefit**: Services can be swapped effortlessly for testing or different environment implementations without touching the React components.
 
-#### ✨ Key Features
+#### Key Features
 - **AST Viewer**: A specialized tool to inspect the parsed structure of documentation.
 - **Intelligence-Enhanced Mermaid**: Build-time validation and auto-correction for Mermaid.js v11 diagrams.
 - **Visual Excellence**: Shiki for VS Code-grade syntax highlighting and MathJax for LaTeX precision.
@@ -64,7 +64,7 @@ To maintain a clean separation between UI and browser APIs, the frontend uses a 
 
 ---
 
-## 🧩 Extension System
+## Extension System
 
 Extend the build process using the **Stateful Middleware Pipeline**. You can hook into any of these stages:
 
@@ -78,7 +78,7 @@ Extend the build process using the **Stateful Middleware Pipeline**. You can hoo
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 ├── docs/             # Markdown source files (the source of truth)
@@ -97,7 +97,7 @@ Extend the build process using the **Stateful Middleware Pipeline**. You can hoo
 
 ---
 
-## 🛠️ Quick Start
+## Quick Start
 
 ### 1. Installation
 ```bash
@@ -120,18 +120,18 @@ docts build --rust
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 1. Check [TODOS.md](./TODOS.md) for the roadmap.
 2. Ensure `bun run lint` and `bun run test` pass.
 3. Submit a PR!
 
-## 📜 License
+## License
 MIT © [Naranyala](https://github.com/naranyala)
 
 ---
 
-## 🧐 Architectural Opinion & Critique
+## Architectural Opinion & Critique
 
 ### The Good
 - **Type-Safe Content**: The decision to generate a TypeScript "database" for documentation is brilliant. It brings the rigor of software engineering (type checking, IDE autocompletion) to content creation.
@@ -145,15 +145,14 @@ MIT © [Naranyala](https://github.com/naranyala)
 
 ---
 
-## 🗺️ Future Roadmap & Suggestions
+## Future Roadmap & Suggestions
 
-### ⚡ Performance & Scalability
+### Performance & Scalability
 - **Code Splitting**: Implement dynamic imports for the generated documentation. Instead of one large `allDocs` array, load documents on demand to keep the initial bundle size small.
 - **Incremental Builds**: Optimize the compiler to only re-process modified files and their dependencies, reducing build times for large sites.
 - **Unified Engine (WASM)**: Replace the dual-engine approach by compiling the Rust engine to WASM and running it within the Bun environment. This provides Rust speed with TS flexibility.
 
-### 🛠️ Developer Experience
+### Developer Experience
 - **Plugin Registry**: Transform the middleware pipeline into a formal plugin system where users can load third-party extensions via a configuration file.
 - **Live Preview Server**: Implement a WebSocket-based live preview that renders Markdown changes in the browser instantly without a full rebuild.
 - **Visual Schema Editor**: Create a small tool to visually edit the TypeBox schemas that define document metadata.
-
