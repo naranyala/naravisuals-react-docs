@@ -7,115 +7,115 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://your-docs-site.com/docs/docs/abstract</loc>
+    <loc>https://your-docs-site.com/docs/abstract</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-docs-site.com/docs/docs/getting-started</loc>
+    <loc>https://your-docs-site.com/docs/getting-started</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-docs-site.com/docs/docs/architecture</loc>
+    <loc>https://your-docs-site.com/docs/architecture</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-docs-site.com/docs/docs/mvvm-pattern</loc>
+    <loc>https://your-docs-site.com/docs/mvvm-pattern</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-docs-site.com/docs/docs/ui-components</loc>
+    <loc>https://your-docs-site.com/docs/ui-components</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-docs-site.com/docs/docs/getting-started/environment-setup</loc>
+    <loc>https://your-docs-site.com/docs/getting-started/environment-setup</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-docs-site.com/docs/docs/getting-started/creating-first-app</loc>
+    <loc>https://your-docs-site.com/docs/getting-started/creating-first-app</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-docs-site.com/docs/docs/getting-started/project-structure</loc>
+    <loc>https://your-docs-site.com/docs/getting-started/project-structure</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-docs-site.com/docs/docs/mvvm/mvvm-core-concepts</loc>
+    <loc>https://your-docs-site.com/docs/architecture/xaml-fundamentals</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-docs-site.com/docs/docs/mvvm/data-binding-deep-dive</loc>
+    <loc>https://your-docs-site.com/docs/architecture/rendering-pipeline</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-docs-site.com/docs/docs/mvvm/commands-and-interaction</loc>
+    <loc>https://your-docs-site.com/docs/architecture/logical-vs-visual-tree</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-docs-site.com/docs/docs/mvvm/reactive-ui-integration</loc>
+    <loc>https://your-docs-site.com/docs/architecture/styling-system</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-docs-site.com/docs/docs/components/layout-containers</loc>
+    <loc>https://your-docs-site.com/docs/mvvm/mvvm-core-concepts</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-docs-site.com/docs/docs/components/basic-controls</loc>
+    <loc>https://your-docs-site.com/docs/mvvm/data-binding-deep-dive</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-docs-site.com/docs/docs/components/custom-control-creation</loc>
+    <loc>https://your-docs-site.com/docs/mvvm/commands-and-interaction</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-docs-site.com/docs/docs/architecture/xaml-fundamentals</loc>
+    <loc>https://your-docs-site.com/docs/mvvm/reactive-ui-integration</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-docs-site.com/docs/docs/architecture/rendering-pipeline</loc>
+    <loc>https://your-docs-site.com/docs/components/layout-containers</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-docs-site.com/docs/docs/architecture/logical-vs-visual-tree</loc>
+    <loc>https://your-docs-site.com/docs/components/basic-controls</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-docs-site.com/docs/docs/architecture/styling-system</loc>
+    <loc>https://your-docs-site.com/docs/components/custom-control-creation</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

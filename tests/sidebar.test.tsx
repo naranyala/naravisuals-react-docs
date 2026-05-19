@@ -26,7 +26,7 @@ const mockSidebar = [
 
 describe("Sidebar", () => {
   test("renders categories", () => {
-    renderWithServices(<Sidebar sidebar={mockSidebar} currentSlug="intro" onNavigate={mock()} />);
+    renderWithServices(<Sidebar sidebar={mockSidebar} currentSlug="" onNavigate={mock()} />);
     expect(document.querySelector(".sidebar-category-label")?.textContent).toBe("Getting Started");
   });
 

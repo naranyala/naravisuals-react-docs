@@ -236,7 +236,7 @@ describe("Theme Service", () => {
 describe("App Config", () => {
   test("defaults", () => {
     const c = createAppConfig();
-    expect(c.siteTitle).toBe("Docs");
+    expect(c.siteTitle).toBe(process.env.PROJECT_NAME || "Docs");
     expect(c.repoEditUrl).toBe("https://github.com/your-org/your-repo/edit/main");
     expect(c.mobileBreakpoint).toBe(800);
     expect(c.tocBreakpoint).toBe(1100);

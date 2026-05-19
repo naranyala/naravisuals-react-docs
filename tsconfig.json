@@ -26,6 +26,7 @@
 
     "baseUrl": ".",
     "paths": {
+      "@naravisuals/shared-types": ["./packages/shared-types/src/schemas.ts"],
       "@/generated/*": ["./apps/web/src/generated/*"],
       "@/generated": ["./apps/web/src/generated"],
       "@/shared/*": ["./apps/web/src/shared/*"],

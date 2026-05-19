@@ -7,7 +7,7 @@
  */
 
 import { describe, expect, test } from "bun:test";
-import { DocEntrySchema, SidebarItemSchema } from "@naravisuals/shared-types";
+import { DocEntrySchema, SidebarItemSchema } from "../packages/shared-types/src/schemas";
 import { Value } from "@sinclair/typebox/value";
 import { allDocs, sidebarData } from "../apps/web/src/generated";
 

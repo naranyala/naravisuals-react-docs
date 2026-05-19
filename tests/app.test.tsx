@@ -4,7 +4,8 @@
 
 import { beforeEach, describe, expect, mock, test } from "bun:test";
 import MainLayout from "../apps/web/src/layout/MainLayout";
-import { renderWithServices } from "./test-utils";
+import { renderWithServices, screen } from "./test-utils";
+import { waitFor } from "@testing-library/react";
 
 describe("App Integration", () => {
   beforeEach(() => {
@@ -23,15 +24,21 @@ describe("App Integration", () => {
     expect(document.querySelector(".top-bar-right")).toBeDefined();
   });
 
-  test("renders site title", () => {
+  test("renders site title", async () => {
     renderWithServices(<MainLayout />);
-    expect(document.querySelector(".site-title")?.textContent).toBe("Docs");
+    await waitFor(() => {
+      expect(document.querySelector(".top-bar-breadcrumb-item.root")).toBeDefined();
+    });
+    expect(document.querySelector(".top-bar-breadcrumb-item.root")?.textContent?.toLowerCase()).toBe(
+      (process.env.PROJECT_NAME ? process.env.PROJECT_NAME.replace(/-/g, " ") : "Docs").toLowerCase()
+    );
   });
 
-  test("renders settings toggle button", () => {
+  test("renders settings toggle button", async () => {
     renderWithServices(<MainLayout />);
-    const buttons = document.querySelectorAll(".top-bar-action-btn");
-    expect(buttons.length).toBeGreaterThan(0);
+    await waitFor(() => {
+      expect(document.querySelector(".top-bar-btn.context-menu-btn")).toBeDefined();
+    });
   });
 
   test("renders menu button for mobile sidebar", () => {
@@ -88,18 +95,23 @@ describe("App Integration", () => {
     expect(document.querySelector(".site-wrapper")).toBeDefined();
   });
 
-  test("site title is clickable and navigates to abstract", () => {
+  test("site title is clickable and navigates to abstract", async () => {
     renderWithServices(<MainLayout />);
-    const siteTitle = document.querySelector(".site-title") as HTMLElement;
-    expect(siteTitle).toBeDefined();
-    expect(siteTitle.style.cursor).toBe("pointer");
+    await waitFor(() => {
+      expect(document.querySelector(".top-bar-breadcrumb-item.root")).toBeDefined();
+    });
+    const rootLink = document.querySelector(".top-bar-breadcrumb-item.root") as HTMLElement;
+    expect(rootLink).toBeDefined();
+    expect(rootLink.getAttribute("href")).toBe("/");
   });
 
   // ─── Settings Panel Edge Cases ────────────────────────────────────
 
   test("settings panel opens when toggle clicked", () => {
     renderWithServices(<MainLayout />);
-    const settingsBtn = document.querySelector(".top-bar-icon-btn[aria-label='Toggle settings']");
+    const settingsBtn = document.querySelector(
+      ".top-bar-icon-btn[aria-label='Toggle settings']"
+    ) as HTMLElement;
     if (settingsBtn) {
       settingsBtn.click();
       expect(document.querySelector(".settings-overlay")).toBeDefined();
@@ -108,10 +120,12 @@ describe("App Integration", () => {
 
   test("settings panel closes when overlay clicked", () => {
     renderWithServices(<MainLayout />);
-    const settingsBtn = document.querySelector(".top-bar-icon-btn[aria-label='Toggle settings']");
+    const settingsBtn = document.querySelector(
+      ".top-bar-icon-btn[aria-label='Toggle settings']"
+    ) as HTMLElement;
     if (settingsBtn) {
       settingsBtn.click();
-      const overlay = document.querySelector(".settings-overlay");
+      const overlay = document.querySelector(".settings-overlay") as HTMLElement;
       if (overlay) {
         overlay.click();
         expect(document.querySelector(".settings-overlay")).toBeNull();

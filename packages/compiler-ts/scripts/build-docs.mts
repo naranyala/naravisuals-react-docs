@@ -4,6 +4,7 @@
 
 import { createHighlighter } from "shiki";
 import { DocumentationCompiler } from "./compiler/Engine";
+import { pluginMiddleware } from "./compiler/Middlewares";
 import { mermaidDeepValidator } from "./compiler/middlewares/MermaidDeepValidator";
 import { paths } from "./core/index";
 

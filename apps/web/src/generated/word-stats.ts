@@ -81,11 +81,11 @@ export const wordStats = [
     "count": 10
   },
   {
-    "word": "binding",
+    "word": "custom",
     "count": 10
   },
   {
-    "word": "custom",
+    "word": "binding",
     "count": 10
   },
   {
@@ -105,11 +105,11 @@ export const wordStats = [
     "count": 8
   },
   {
-    "word": "reactiveui",
+    "word": "styling",
     "count": 8
   },
   {
-    "word": "styling",
+    "word": "reactiveui",
     "count": 8
   },
   {
@@ -161,11 +161,11 @@ export const wordStats = [
     "count": 6
   },
   {
-    "word": "input",
+    "word": "properties",
     "count": 6
   },
   {
-    "word": "properties",
+    "word": "input",
     "count": 6
   },
   {
@@ -229,11 +229,11 @@ export const wordStats = [
     "count": 5
   },
   {
-    "word": "element",
+    "word": "basic",
     "count": 5
   },
   {
-    "word": "basic",
+    "word": "element",
     "count": 5
   },
   {
@@ -405,6 +405,70 @@ export const wordStats = [
     "count": 3
   },
   {
+    "word": "like",
+    "count": 3
+  },
+  {
+    "word": "property",
+    "count": 3
+  },
+  {
+    "word": "default",
+    "count": 3
+  },
+  {
+    "word": "specific",
+    "count": 3
+  },
+  {
+    "word": "different",
+    "count": 3
+  },
+  {
+    "word": "skia",
+    "count": 3
+  },
+  {
+    "word": "instead",
+    "count": 3
+  },
+  {
+    "word": "pass",
+    "count": 3
+  },
+  {
+    "word": "space",
+    "count": 3
+  },
+  {
+    "word": "acceleration",
+    "count": 3
+  },
+  {
+    "word": "gpu",
+    "count": 3
+  },
+  {
+    "word": "button",
+    "count": 3
+  },
+  {
+    "word": "selectors",
+    "count": 3
+  },
+  {
+    "word": "selector",
+    "count": 3
+  },
+  {
+    "word": "targets",
+    "count": 3
+  },
+  {
+    "word": "buttons",
+    "count": 3
+  },
+  {
     "word": "user",
     "count": 3
   },
@@ -425,31 +489,7 @@ export const wordStats = [
     "count": 3
   },
   {
-    "word": "instead",
-    "count": 3
-  },
-  {
-    "word": "button",
-    "count": 3
-  },
-  {
-    "word": "property",
-    "count": 3
-  },
-  {
-    "word": "like",
-    "count": 3
-  },
-  {
     "word": "containers",
-    "count": 3
-  },
-  {
-    "word": "default",
-    "count": 3
-  },
-  {
-    "word": "space",
     "count": 3
   },
   {
@@ -458,46 +498,6 @@ export const wordStats = [
   },
   {
     "word": "usercontrol",
-    "count": 3
-  },
-  {
-    "word": "different",
-    "count": 3
-  },
-  {
-    "word": "specific",
-    "count": 3
-  },
-  {
-    "word": "skia",
-    "count": 3
-  },
-  {
-    "word": "pass",
-    "count": 3
-  },
-  {
-    "word": "acceleration",
-    "count": 3
-  },
-  {
-    "word": "gpu",
-    "count": 3
-  },
-  {
-    "word": "selectors",
-    "count": 3
-  },
-  {
-    "word": "selector",
-    "count": 3
-  },
-  {
-    "word": "targets",
-    "count": 3
-  },
-  {
-    "word": "buttons",
     "count": 3
   },
   {
@@ -613,103 +613,11 @@ export const wordStats = [
     "count": 2
   },
   {
-    "word": "one",
-    "count": 2
-  },
-  {
-    "word": "way",
-    "count": 2
-  },
-  {
-    "word": "updates",
-    "count": 2
-  },
-  {
-    "word": "lists",
-    "count": 2
-  },
-  {
-    "word": "item",
-    "count": 2
-  },
-  {
-    "word": "events",
-    "count": 2
-  },
-  {
-    "word": "click",
-    "count": 2
-  },
-  {
-    "word": "piece",
-    "count": 2
-  },
-  {
-    "word": "reactive",
-    "count": 2
-  },
-  {
-    "word": "extensions",
+    "word": "markup",
     "count": 2
   },
   {
     "word": "based",
-    "count": 2
-  },
-  {
-    "word": "streams",
-    "count": 2
-  },
-  {
-    "word": "search",
-    "count": 2
-  },
-  {
-    "word": "container",
-    "count": 2
-  },
-  {
-    "word": "drawing",
-    "count": 2
-  },
-  {
-    "word": "selection",
-    "count": 2
-  },
-  {
-    "word": "choice",
-    "count": 2
-  },
-  {
-    "word": "triggers",
-    "count": 2
-  },
-  {
-    "word": "menus",
-    "count": 2
-  },
-  {
-    "word": "reusable",
-    "count": 2
-  },
-  {
-    "word": "defined",
-    "count": 2
-  },
-  {
-    "word": "libraries",
-    "count": 2
-  },
-  {
-    "word": "rightarrow",
-    "count": 2
-  },
-  {
-    "word": "block",
-    "count": 2
-  },
-  {
-    "word": "markup",
     "count": 2
   },
   {
@@ -725,11 +633,31 @@ export const wordStats = [
     "count": 2
   },
   {
+    "word": "lists",
+    "count": 2
+  },
+  {
     "word": "namespaces",
     "count": 2
   },
   {
+    "word": "libraries",
+    "count": 2
+  },
+  {
     "word": "skiasharp",
+    "count": 2
+  },
+  {
+    "word": "drawing",
+    "count": 2
+  },
+  {
+    "word": "piece",
+    "count": 2
+  },
+  {
+    "word": "one",
     "count": 2
   },
   {
@@ -758,6 +686,78 @@ export const wordStats = [
   },
   {
     "word": "value",
+    "count": 2
+  },
+  {
+    "word": "triggers",
+    "count": 2
+  },
+  {
+    "word": "defined",
+    "count": 2
+  },
+  {
+    "word": "block",
+    "count": 2
+  },
+  {
+    "word": "way",
+    "count": 2
+  },
+  {
+    "word": "updates",
+    "count": 2
+  },
+  {
+    "word": "item",
+    "count": 2
+  },
+  {
+    "word": "events",
+    "count": 2
+  },
+  {
+    "word": "click",
+    "count": 2
+  },
+  {
+    "word": "reactive",
+    "count": 2
+  },
+  {
+    "word": "extensions",
+    "count": 2
+  },
+  {
+    "word": "streams",
+    "count": 2
+  },
+  {
+    "word": "search",
+    "count": 2
+  },
+  {
+    "word": "container",
+    "count": 2
+  },
+  {
+    "word": "selection",
+    "count": 2
+  },
+  {
+    "word": "choice",
+    "count": 2
+  },
+  {
+    "word": "menus",
+    "count": 2
+  },
+  {
+    "word": "reusable",
+    "count": 2
+  },
+  {
+    "word": "rightarrow",
     "count": 2
   },
   {
@@ -927,11 +927,15 @@ export const filteredStats = [
     "count": 2
   },
   {
+    "word": "more",
+    "count": 2
+  },
+  {
     "word": "its",
     "count": 2
   },
   {
-    "word": "only",
+    "word": "allows",
     "count": 2
   },
   {
@@ -943,11 +947,7 @@ export const filteredStats = [
     "count": 2
   },
   {
-    "word": "allows",
-    "count": 2
-  },
-  {
-    "word": "more",
+    "word": "only",
     "count": 2
   },
   {
@@ -987,6 +987,34 @@ export const filteredStats = [
     "count": 1
   },
   {
+    "word": "process",
+    "count": 1
+  },
+  {
+    "word": "each",
+    "count": 1
+  },
+  {
+    "word": "within",
+    "count": 1
+  },
+  {
+    "word": "then",
+    "count": 1
+  },
+  {
+    "word": "just",
+    "count": 1
+  },
+  {
+    "word": "must",
+    "count": 1
+  },
+  {
+    "word": "all",
+    "count": 1
+  },
+  {
     "word": "file",
     "count": 1
   },
@@ -1020,34 +1048,6 @@ export const filteredStats = [
   },
   {
     "word": "have",
-    "count": 1
-  },
-  {
-    "word": "process",
-    "count": 1
-  },
-  {
-    "word": "each",
-    "count": 1
-  },
-  {
-    "word": "within",
-    "count": 1
-  },
-  {
-    "word": "then",
-    "count": 1
-  },
-  {
-    "word": "just",
-    "count": 1
-  },
-  {
-    "word": "must",
-    "count": 1
-  },
-  {
-    "word": "all",
     "count": 1
   },
   {

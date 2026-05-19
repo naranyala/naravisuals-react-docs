@@ -36,6 +36,43 @@ import {
   createMockStorage,
   createMockTheme,
 } from "../apps/web/src/services/mocks";
+import { GeneratedDataProvider } from "../apps/web/src/contexts/GeneratedDataContext";
+import { MetadataProvider } from "../apps/web/src/features/metadata/MetadataProvider";
+import { mockDocEntry, mockSidebarData } from "./test-utils";
+import { createContext, useContext } from "react";
+import type { GeneratedDataContextValue } from "../apps/web/src/contexts/GeneratedDataContext";
+
+const MockGeneratedDataContext = createContext<GeneratedDataContextValue | null>(null);
+
+function MockGeneratedDataProvider({ children }: { children: React.ReactNode }) {
+  const value: GeneratedDataContextValue = {
+    sidebar: mockSidebarData,
+    docs: [mockDocEntry],
+    errors: { sidebar: null, docs: null },
+    isLoading: false,
+    getDocBySlug: (slug) => (slug === mockDocEntry.slug ? mockDocEntry : undefined),
+    getDocById: (id) => (id === mockDocEntry.id ? mockDocEntry : undefined),
+    getSidebarItem: (slug) => {
+      // Basic search in mockSidebarData
+      for (const item of mockSidebarData) {
+        if ((item as any).slug === slug || (item as any).id === slug) return item;
+        if ((item as any).items) {
+          const found = (item as any).items.find((i: any) => i.slug === slug || i.id === slug);
+          if (found) return found;
+        }
+      }
+      return undefined;
+    },
+  };
+  return <MockGeneratedDataContext.Provider value={value}>{children}</MockGeneratedDataContext.Provider>;
+}
+
+// We need to override the real useGeneratedData, but it's a function.
+// A better way is to wrap the app in a provider that the component uses.
+// But the component uses the real useGeneratedData which depends on the real GeneratedDataContext.
+// So we should use the real GeneratedDataProvider but mock the modules it imports.
+// Or, since we are in Bun, we can use mock.module.
+
 
 // ─── Test Render ──────────────────────────────────────────────────────────
 
@@ -66,9 +103,13 @@ export function renderWithServices(
   function Wrapper({ children }: { children: ReactNode }) {
     return (
       <ServicesProvider container={container}>
-        <StoreProvider>
-          <SearchProvider>{children}</SearchProvider>
-        </StoreProvider>
+        <GeneratedDataProvider>
+          <MetadataProvider>
+            <StoreProvider>
+              <SearchProvider>{children}</SearchProvider>
+            </StoreProvider>
+          </MetadataProvider>
+        </GeneratedDataProvider>
       </ServicesProvider>
     );
   }

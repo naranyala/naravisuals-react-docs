@@ -36,7 +36,7 @@ describe("ErrorBoundary", () => {
       </ErrorBoundary>
     );
 
-    expect(getByText(/application error/i)).toBeTruthy();
+    expect(getByText(/something went wrong/i)).toBeTruthy();
     expect(getByText("Test render error")).toBeTruthy();
     expect(getByRole("button", { name: /reload page/i })).toBeTruthy();
 
