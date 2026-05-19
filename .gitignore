@@ -1,6 +1,36 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+.bun-install/
 
-node_modules
-dist
-src/generated
-scripts-rs/target
+# Build artifacts
+dist/
+build/
+coverage/
+
+# Generated content
+# We ignore the generated files because they are rebuildable from source
+apps/web/src/generated/
+src/generated/
+
+# Rust artifacts
+**/target/
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Site assets
 src/sitemap.xml
+src/robots.txt
