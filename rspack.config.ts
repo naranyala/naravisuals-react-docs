@@ -14,7 +14,7 @@ const pkg = JSON.parse(readFileSync(path.resolve(__dirname, "package.json"), "ut
 
 export default defineConfig({
   entry: {
-    index: path.resolve(__dirname, "src/frontend.tsx"),
+    index: path.resolve(__dirname, "apps/web/src/frontend.tsx"),
   },
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -25,7 +25,7 @@ export default defineConfig({
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx", ".json"],
     alias: {
-      "@": path.resolve(__dirname, "src"),
+      "@": path.resolve(__dirname, "apps/web/src"),
     },
   },
   module: {
@@ -65,7 +65,7 @@ export default defineConfig({
   },
   plugins: [
     new rspack.HtmlRspackPlugin({
-      template: path.resolve(__dirname, "src/index.html"),
+      template: path.resolve(__dirname, "apps/web/src/index.html"),
       filename: "index.html",
       minify: isProd,
     }),
@@ -85,7 +85,7 @@ export default defineConfig({
     }),
     new rspack.CopyRspackPlugin({
       patterns: [
-        { from: path.resolve(__dirname, "src/logo.svg"), to: "logo.svg" },
+        { from: path.resolve(__dirname, "apps/web/src/logo.svg"), to: "logo.svg" },
         { from: path.resolve(__dirname, "sitemap.xml"), to: "sitemap.xml", noErrorOnMissing: true },
         { from: path.resolve(__dirname, "robots.txt"), to: "robots.txt", noErrorOnMissing: true },
         // Copy MathJax library (SVG output)

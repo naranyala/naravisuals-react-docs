@@ -14,7 +14,7 @@
 
 Most SSGs treat documentation as a series of HTML pages. Naravisuals Web treats documentation as **structured data**. 
 
-The build engine parses Markdown and generates a set of TypeScript files in `src/generated/`. This allows the frontend to:
+The build engine parses Markdown and generates a set of TypeScript files in `apps/web/generated/`. This allows the frontend to:
 - Enjoy full type safety for all document metadata and content.
 - Implement complex client-side features (like a global AST viewer or advanced search) without expensive API calls.
 - Maintain near-instant page transitions through a React SPA architecture.
@@ -27,7 +27,7 @@ The build engine parses Markdown and generates a set of TypeScript files in `src
 The project employs a dual-engine approach to balance flexibility and speed.
 
 #### TypeScript Engine (Bun)
-The primary engine located in `scripts/`, designed for rapid iteration and easy plugin development.
+The primary engine located in `packages/compiler-ts/`, designed for rapid iteration and easy plugin development.
 - **Orchestration**: The `DocumentationCompiler` manages the full lifecycle.
 - **The Pipeline**:
     1. **Ingestion**: Recursively scans `docs/` and `blog/` for Markdown files.
@@ -45,14 +45,14 @@ The primary engine located in `scripts/`, designed for rapid iteration and easy 
        - Writes content as TS constants in `src/generated/`.
        - Generates SEO assets (`sitemap.xml`, `robots.txt`).
 
-#### Rust Engine (`scripts-rs`)
+#### Rust Engine (`packages/compiler-rs`)
 A high-performance implementation of the compiler logic written in Rust, intended for massive documentation sets and optimized CI/CD pipelines.
 
 ### 2. The Frontend (React 19)
 A sophisticated SPA that renders the generated data.
 
 #### Dependency Injection (DI) Container
-To maintain a clean separation between UI and browser APIs, the frontend uses a **Service Container** (`src/services/container.ts`).
+To maintain a clean separation between UI and browser APIs, the frontend uses a **Service Container** (`apps/web/services/container.ts`).
 - **Abstracted Services**: `IStorageService`, `IRouterService`, `IDomService`, `IThemeService`, and `ISidebarService`.
 - **Benefit**: Services can be swapped effortlessly for testing or different environment implementations without touching the React components.
 
@@ -81,18 +81,16 @@ Extend the build process using the **Stateful Middleware Pipeline**. You can hoo
 ## Project Structure
 
 ```text
-├── docs/             # Markdown source files (the source of truth)
-├── scripts/          # TS Build Engine (The "Compiler")
-│   ├── compiler/     # Engine, Middleware, and Container logic
-│   ├── pipeline/     # Scanner, Renderer, and Generator utilities
-│   └── plugins/      # Validation and Transformation plugins
-├── scripts-rs/       # Rust-based High-Performance Engine
-├── src/              # React 19 Frontend Application
-│   ├── core/         # Global State, Error Boundaries, and DI
-│   ├── features/     # Feature-sliced components (Search, AST, Docs)
-│   ├── generated/    # The TS "Database" produced by the build engine
-│   └── shared/       # UI components and shared schemas
-└── tests/            # Integration and Unit tests for both engine and UI
+├── apps/
+│   ├── web/          # React 19 Frontend Application
+│   └── server/       # Production Server
+├── packages/
+│   ├── compiler-ts/  # TS Build Engine (The "Compiler")
+│   └── compiler-rs/  # Rust-based High-Performance Engine
+├── content/
+│   └── docs/         # Markdown source files (the source of truth)
+├── tests/            # Integration and Unit tests
+└── ...
 ```
 
 ---

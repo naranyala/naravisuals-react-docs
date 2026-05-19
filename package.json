@@ -3,31 +3,35 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "bin": {
-    "docts": "./scripts/cli.mts"
+    "docts": "./packages/compiler-ts/cli.mts"
   },
   "scripts": {
-    "dev": "bun run scripts/cli.mts dev",
-    "build": "bun run scripts/cli.mts build",
-    "start": "bun run scripts/cli.mts start",
-    "preview": "bun run scripts/cli.mts preview",
-    "build:docs": "bun run scripts/cli.mts docs",
-    "test": "bun run scripts/cli.mts test",
-    "test:watch": "bun run scripts/cli.mts test --watch",
-    "test:coverage": "bun run scripts/cli.mts test --coverage",
+    "dev": "bun run packages/compiler-ts/scripts/cli.mts dev",
+    "build": "bun run packages/compiler-ts/scripts/cli.mts build",
+    "start": "bun run packages/compiler-ts/scripts/cli.mts start",
+    "preview": "bun run packages/compiler-ts/scripts/cli.mts preview",
+    "build:docs": "bun run packages/compiler-ts/scripts/cli.mts docs",
+    "test": "bun run packages/compiler-ts/scripts/cli.mts test",
+    "test:watch": "bun run packages/compiler-ts/scripts/cli.mts test --watch",
+    "test:coverage": "bun run packages/compiler-ts/scripts/cli.mts test --coverage",
     "type-check": "bunx tsc --noEmit",
     "rspack": "rspack",
-    "lint": "bun run scripts/cli.mts lint",
-    "lint:fix": "bun run scripts/cli.mts lint:fix",
-    "verify-ci": "bun run scripts/verify-ci.mts",
-    "clean": "bun run scripts/cli.mts clean",
-    "info": "bun run scripts/cli.mts info",
+    "lint": "bun run packages/compiler-ts/scripts/cli.mts lint",
+    "lint:fix": "bun run packages/compiler-ts/scripts/cli.mts lint:fix",
+    "verify-ci": "bun run packages/compiler-ts/scripts/verify-ci.mts",
+    "clean": "bun run packages/compiler-ts/scripts/cli.mts clean",
+    "info": "bun run packages/compiler-ts/scripts/cli.mts info",
     "format": "biome format --write .",
     "format:check": "biome format .",
-    "validate": "bun run scripts/validate-all.mts",
-    "validate:strict": "bun run scripts/validate-all.mts --strict",
-    "validate:stats": "bun run scripts/validate-all.mts --stats",
-    "validate:llm": "bun run scripts/validate-all.mts --llm"
+    "validate": "bun run packages/compiler-ts/scripts/validate-all.mts",
+    "validate:strict": "bun run packages/compiler-ts/scripts/validate-all.mts --strict",
+    "validate:stats": "bun run packages/compiler-ts/scripts/validate-all.mts --stats",
+    "validate:llm": "bun run packages/compiler-ts/scripts/validate-all.mts --llm"
   },
   "dependencies": {
     "@leeoniya/ufuzzy": "^1.0.19",

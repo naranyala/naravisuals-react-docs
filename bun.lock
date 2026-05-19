@@ -54,6 +54,24 @@
         "typescript": "^6.0.3",
       },
     },
+    "apps/web": {
+      "name": "@naravisuals/web",
+      "version": "0.1.0",
+      "dependencies": {
+        "@naravisuals/shared-types": "*",
+      },
+    },
+    "packages/compiler-ts": {
+      "name": "@naravisuals/compiler-ts",
+      "version": "0.1.0",
+      "dependencies": {
+        "@naravisuals/shared-types": "*",
+      },
+    },
+    "packages/shared-types": {
+      "name": "@naravisuals/shared-types",
+      "version": "0.1.0",
+    },
   },
   "packages": {
     "@adobe/css-tools": ["@adobe/css-tools@4.4.4", "", {}, "sha512-Elp+iwUx5rN5+Y8xLt5/GRoG20WGoDCQ/1Fb+1LiGtvwbDavuSk0jhD/eZdckHAuzcDzccnkv+rEjyWfRx18gg=="],
@@ -183,6 +201,12 @@
     "@module-federation/webpack-bundler-runtime": ["@module-federation/webpack-bundler-runtime@0.22.0", "", { "dependencies": { "@module-federation/runtime": "0.22.0", "@module-federation/sdk": "0.22.0" } }, "sha512-aM8gCqXu+/4wBmJtVeMeeMN5guw3chf+2i6HajKtQv7SJfxV/f4IyNQJUeUQu9HfiAZHjqtMV5Lvq/Lvh8LdyA=="],
 
     "@napi-rs/wasm-runtime": ["@napi-rs/wasm-runtime@1.0.7", "", { "dependencies": { "@emnapi/core": "^1.5.0", "@emnapi/runtime": "^1.5.0", "@tybys/wasm-util": "^0.10.1" } }, "sha512-SeDnOO0Tk7Okiq6DbXmmBODgOAb9dp9gjlphokTUxmt8U3liIP1ZsozBahH69j/RJv+Rfs6IwUKHTgQYJ/HBAw=="],
+
+    "@naravisuals/compiler-ts": ["@naravisuals/compiler-ts@workspace:packages/compiler-ts"],
+
+    "@naravisuals/shared-types": ["@naravisuals/shared-types@workspace:packages/shared-types"],
+
+    "@naravisuals/web": ["@naravisuals/web@workspace:apps/web"],
 
     "@nodelib/fs.scandir": ["@nodelib/fs.scandir@2.1.5", "", { "dependencies": { "@nodelib/fs.stat": "2.0.5", "run-parallel": "^1.1.9" } }, "sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g=="],
 
