@@ -5,10 +5,10 @@
  * Services can be swapped for testing, SSR, or different implementations.
  */
 
+import { type AppConfig, AppConfigSchema } from "@naravisuals/shared-types";
 import { TypeCompiler } from "@sinclair/typebox/compiler";
 import { Err, Ok, type Result } from "better-result";
 import type { SidebarCategoryItem, SidebarItem } from "@/generated";
-import { type AppConfig, AppConfigSchema } from "@naravisuals/shared-types";
 import { createEventBusService, type IEventBusService } from "./event-bus";
 
 // ─── Service Interfaces ───────────────────────────────────────────────────

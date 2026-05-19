@@ -3,7 +3,7 @@
  */
 
 import { describe, expect, mock, test } from "bun:test";
-import { DocFooter } from "../src/features/docs/DocFooter";
+import { DocFooter } from "../apps/web/src/features/docs/DocFooter";
 import { renderWithServices } from "./test-utils";
 
 const prevDoc = { title: "Previous Doc", slug: "test/prev" };

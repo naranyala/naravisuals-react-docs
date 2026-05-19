@@ -58,7 +58,7 @@ impl DocumentationCompiler {
         self.scan_directory(&docs_dir, "docs")?;
 
         // 1.1 Validate mandatory abstract
-        if !self.units.iter().any(|u| u.rel_path == "00-abstract") {
+        if !self.units.iter().any(|u| u.rel_path.to_string().contains("00-abstract")) {
             self.container.context.error(
                 DiagnosticSource::Frontmatter,
                 "docs/00-abstract.md",

@@ -3,7 +3,7 @@
  */
 
 import { describe, expect, test } from "bun:test";
-import { TableOfContents } from "../src/features/navigation/TableOfContents";
+import { TableOfContents } from "../apps/web/src/features/navigation/TableOfContents";
 import { renderWithServices } from "./test-utils";
 
 const mockTocItems = [

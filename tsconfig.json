@@ -26,7 +26,11 @@
 
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./apps/web/*"]
+      "@/generated/*": ["./apps/web/src/generated/*"],
+      "@/generated": ["./apps/web/src/generated"],
+      "@/shared/*": ["./apps/web/src/shared/*"],
+      "@/services/*": ["./apps/web/src/services/*"],
+      "@/*": ["./apps/web/src/*"]
     },
 
     // Some stricter flags (disabled by default)
@@ -36,6 +40,6 @@
     "noPropertyAccessFromIndexSignature": false
   },
 
-  "include": ["apps/web", "packages/compiler-ts", "rspack.config.ts", "bun-env.d.ts"],
+  "include": ["apps/web", "packages/compiler-ts", "tests", "rspack.config.ts", "bun-env.d.ts"],
   "exclude": ["dist", "node_modules", "packages/compiler-ts/archived"]
 }

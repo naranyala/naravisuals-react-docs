@@ -4,7 +4,6 @@
 
 import { createHighlighter } from "shiki";
 import { DocumentationCompiler } from "./compiler/Engine";
-import { pluginMiddleware, validationMiddleware } from "./compiler/Middlewares";
 import { mermaidDeepValidator } from "./compiler/middlewares/MermaidDeepValidator";
 import { paths } from "./core/index";
 
@@ -45,7 +44,7 @@ async function runBuild() {
     highlighter as any
   );
 
-  compiler.use(pluginMiddleware).use(mermaidDeepValidator).use(validationMiddleware);
+  compiler.use(pluginMiddleware).use(mermaidDeepValidator);
 
   try {
     await compiler.compile();

@@ -3,8 +3,8 @@ import {
   FuseSearchEngine,
   M31FuzzySearchEngine,
   UFuzzySearchEngine,
-} from "../src/features/search/search-engines-impl";
-import { allDocs } from "../src/generated";
+} from "../apps/web/src/features/search/search-engines-impl";
+import { allDocs } from "../apps/web/src/generated";
 
 describe("Local Search Engine Implementations", () => {
   // Mock some docs for consistent testing

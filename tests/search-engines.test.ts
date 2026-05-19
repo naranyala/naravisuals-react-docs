@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
-import { formatSearchUrl } from "../src/core/utils";
-import { SEARCH_ENGINES } from "../src/features/search/search-engines";
+import { formatSearchUrl } from "../apps/web/src/core/utils";
+import { SEARCH_ENGINES } from "../apps/web/src/features/search/search-engines";
 
 describe("Search Engines Configuration", () => {
   test("all search engines should have a valid URL template with %s", () => {

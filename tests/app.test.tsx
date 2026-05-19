@@ -3,7 +3,7 @@
  */
 
 import { beforeEach, describe, expect, mock, test } from "bun:test";
-import MainLayout from "../src/layout/MainLayout";
+import MainLayout from "../apps/web/src/layout/MainLayout";
 import { renderWithServices } from "./test-utils";
 
 describe("App Integration", () => {

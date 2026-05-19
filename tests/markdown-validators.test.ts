@@ -5,7 +5,7 @@ import {
   linkValidator,
   mermaidValidator,
   structureValidator,
-} from "../scripts/plugins/validators";
+} from "../packages/compiler-ts/scripts/plugins/validators";
 
 describe("Markdown Content Validators", () => {
   describe("codeblockValidator", () => {

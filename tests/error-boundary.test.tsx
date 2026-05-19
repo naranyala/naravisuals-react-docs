@@ -5,7 +5,7 @@
 import { describe, expect, mock, spyOn, test } from "bun:test";
 import { render } from "@testing-library/react";
 import type { ReactNode } from "react";
-import { ErrorBoundary } from "../src/core/error-handling/ErrorBoundary";
+import { ErrorBoundary } from "../apps/web/src/core/error-handling/ErrorBoundary";
 
 // Helper: component that throws during render
 function BrokenComponent(): ReactNode {

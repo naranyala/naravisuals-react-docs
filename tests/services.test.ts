@@ -3,7 +3,11 @@
  */
 
 import { beforeEach, describe, expect, mock, test } from "bun:test";
-import { createAppConfig, createContainer, defaultContainer } from "../src/services/container";
+import {
+  createAppConfig,
+  createContainer,
+  defaultContainer,
+} from "../apps/web/src/services/container";
 import {
   createMockDom,
   createMockRouter,
@@ -11,7 +15,7 @@ import {
   createMockTheme,
   type MockDom,
   type MockRouter,
-} from "../src/services/mocks";
+} from "../apps/web/src/services/mocks";
 
 // ─── Container ────────────────────────────────────────────────────────────
 

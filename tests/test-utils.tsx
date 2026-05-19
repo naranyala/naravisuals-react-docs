@@ -22,19 +22,20 @@ import {
   screen,
 } from "@testing-library/react";
 import type { ReactNode } from "react";
-import { StoreProvider } from "../src/core/store";
+import { StoreProvider } from "../apps/web/src/core/store";
+import { SearchProvider } from "../apps/web/src/features/search/SearchProvider";
 import {
   type ContainerOptions,
   createContainer,
   type ServiceContainer,
   ServicesProvider,
-} from "../src/services";
+} from "../apps/web/src/services";
 import {
   createMockDom,
   createMockRouter,
   createMockStorage,
   createMockTheme,
-} from "../src/services/mocks";
+} from "../apps/web/src/services/mocks";
 
 // ─── Test Render ──────────────────────────────────────────────────────────
 
@@ -65,7 +66,9 @@ export function renderWithServices(
   function Wrapper({ children }: { children: ReactNode }) {
     return (
       <ServicesProvider container={container}>
-        <StoreProvider>{children}</StoreProvider>
+        <StoreProvider>
+          <SearchProvider>{children}</SearchProvider>
+        </StoreProvider>
       </ServicesProvider>
     );
   }

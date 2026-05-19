@@ -5,7 +5,7 @@
  */
 
 import { describe, expect, test } from "bun:test";
-import { ReportGenerator } from "../scripts/report/generator.ts";
+import { ReportGenerator } from "../packages/compiler-ts/scripts/report/generator.ts";
 
 describe("ReportGenerator", () => {
   test("tracks and reports issues correctly", () => {

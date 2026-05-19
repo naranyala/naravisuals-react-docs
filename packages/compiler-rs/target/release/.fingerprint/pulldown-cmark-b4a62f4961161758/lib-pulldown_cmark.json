@@ -1,0 +1,27 @@
+{
+  "rustc": 7458672600737419911,
+  "features": "[\"default\", \"getopts\", \"html\", \"pulldown-cmark-escape\"]",
+  "declared_features": "[\"default\", \"gen-tests\", \"getopts\", \"html\", \"pulldown-cmark-escape\", \"serde\", \"simd\"]",
+  "target": 8015467769574921569,
+  "profile": 18103619678132520736,
+  "path": 92587740682925539,
+  "deps": [
+    [1363051979936526615, "memchr", false, 5174502197514030086],
+    [1712002747816846644, "build_script_build", false, 13027091242027311280],
+    [2571033484697105782, "bitflags", false, 1567091726867219790],
+    [9161548618241828600, "unicase", false, 11176898090327999623],
+    [14034672496987986693, "pulldown_cmark_escape", false, 5373446467493961046],
+    [14686689205187145500, "getopts", false, 14281860801857806059]
+  ],
+  "local": [
+    {
+      "CheckDepInfo": {
+        "dep_info": "release/.fingerprint/pulldown-cmark-b4a62f4961161758/dep-lib-pulldown_cmark",
+        "checksum": false
+      }
+    }
+  ],
+  "rustflags": [],
+  "config": 8247474407144887393,
+  "compile_kind": 0
+}

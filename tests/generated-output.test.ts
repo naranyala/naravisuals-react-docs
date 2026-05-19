@@ -7,9 +7,9 @@
  */
 
 import { describe, expect, test } from "bun:test";
+import { DocEntrySchema, SidebarItemSchema } from "@naravisuals/shared-types";
 import { Value } from "@sinclair/typebox/value";
-import { allDocs, sidebarData } from "../src/generated";
-import { DocEntrySchema, SidebarItemSchema } from "../src/shared/schemas.ts";
+import { allDocs, sidebarData } from "../apps/web/src/generated";
 
 describe("generated sidebarData", () => {
   test("is a non-empty array", () => {

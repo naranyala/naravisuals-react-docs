@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import * as utils from "../src/core/utils";
+import * as utils from "../apps/web/src/core/utils";
 
 describe("Core Utilities", () => {
   describe("String Utilities", () => {

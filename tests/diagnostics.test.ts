@@ -11,7 +11,7 @@ import {
   validateFrontmatter,
   validateInternalLinks,
   validateUniqueSlugs,
-} from "../scripts/diagnostics.ts";
+} from "../packages/compiler-ts/scripts/diagnostics.ts";
 
 // ─── Diagnostics Class ──────────────────────────────────────────────
 

@@ -1,10 +1,40 @@
+import type { DocEntry, SidebarItem } from "@naravisuals/shared-types";
 import { useCallback, useEffect, useState } from "react";
 import { useDocState } from "../../core/store";
-import { allDocs, type DocEntry, type SidebarItem, sidebarData } from "../../generated";
 import type { ServiceContainer } from "../../services";
 
-export function useNavigation(services: ServiceContainer) {
+export function useNavigation(services: ServiceContainer, sidebarItems: SidebarItem[] = []) {
   const { setDoc } = useDocState();
+  const [docsError, setDocsError] = useState<Error | null>(null);
+  const [docsLoading, setDocsLoading] = useState(false);
+  const [docs, setDocs] = useState<DocEntry[]>([]);
+  const [retryCount, setRetryCount] = useState(0);
+
+  useEffect(() => {
+    let mounted = true;
+    setDocsLoading(true);
+    setDocsError(null);
+
+    const loadDocs = async () => {
+      try {
+        const docsModule = await import(/* @vite-ignore */ "../../generated/docs/index.ts");
+        if (!mounted) return;
+        setDocs(docsModule.allDocs as DocEntry[]);
+        setDocsLoading(false);
+      } catch (err) {
+        if (!mounted) return;
+        setDocsError(err instanceof Error ? err : new Error(String(err)));
+        setDocsLoading(false);
+      }
+    };
+
+    loadDocs();
+
+    return () => {
+      mounted = false;
+    };
+  }, [retryCount]);
+
   const resolveSlug = useCallback((): string => {
     const path = services.router.getCurrentPath();
     if (path === "/" || path === "") return "abstract";
@@ -14,11 +44,11 @@ export function useNavigation(services: ServiceContainer) {
     if (path.startsWith(`/${services.config.routes.docs}/`)) {
       return path.replace(`/${services.config.routes.docs}/`, "");
     }
-    return allDocs[0]?.slug || "abstract";
-  }, [services.router, services.config.routes.docs]);
+    return docs[0]?.slug || "abstract";
+  }, [services.router, services.config.routes.docs, docs]);
 
   const [currentSlug, setCurrentSlug] = useState(resolveSlug);
-  const currentDoc = allDocs.find((d) => d.slug === currentSlug || d.id === currentSlug) ?? null;
+  const currentDoc = docs.find((d) => d.slug === currentSlug || d.id === currentSlug) ?? null;
 
   useEffect(() => {
     if (currentDoc) {
@@ -62,19 +92,17 @@ export function useNavigation(services: ServiceContainer) {
     const traverse = (items: SidebarItem[]) => {
       for (const item of items) {
         if (item.type === "doc") {
-          const doc = allDocs.find((d) => d.slug === item.slug || d.id === item.id);
+          const doc = docs.find((d) => d.slug === item.slug || d.id === item.id);
           if (doc && !ordered.find((d) => d.slug === doc.slug)) {
             ordered.push(doc);
           }
         } else if (item.type === "category") {
-          // 1. If category has a landing page doc, add it first
           if (item.link) {
-            const linkDoc = allDocs.find((d) => d.slug === item.link?.id || d.id === item.link?.id);
+            const linkDoc = docs.find((d) => d.slug === item.link?.id || d.id === item.link?.id);
             if (linkDoc && !ordered.find((d) => d.slug === linkDoc.slug)) {
               ordered.push(linkDoc);
             }
           }
-          // 2. Recursively add all docs in child items
           if (item.items) {
             traverse(item.items);
           }
@@ -82,9 +110,9 @@ export function useNavigation(services: ServiceContainer) {
       }
     };
 
-    traverse(sidebarData as SidebarItem[]);
+    traverse(sidebarItems.length > 0 ? sidebarItems : []);
     return ordered;
-  }, []);
+  }, [docs, sidebarItems]);
 
   useEffect(() => {
     const unsubscribe = services.router.onPopState(() => {
@@ -93,5 +121,15 @@ export function useNavigation(services: ServiceContainer) {
     return unsubscribe;
   }, [services.router.onPopState, resolveSlug]);
 
-  return { currentSlug, currentDoc, navigate, getDocsInSidebarOrder, setCurrentSlug, resolveSlug };
+  return {
+    currentSlug,
+    currentDoc,
+    navigate,
+    getDocsInSidebarOrder,
+    setCurrentSlug,
+    resolveSlug,
+    docsError,
+    docsLoading,
+    retryDocs: () => setRetryCount((c) => c + 1),
+  };
 }

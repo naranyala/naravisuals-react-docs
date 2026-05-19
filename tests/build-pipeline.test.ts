@@ -5,13 +5,13 @@
 
 import { describe, expect, test } from "bun:test";
 import { marked } from "marked";
-import { parseFrontmatter } from "../scripts/pipeline/frontmatter.ts";
-import { parseCodeInfo } from "../scripts/pipeline/renderer.ts";
-import { extractTOC } from "../scripts/pipeline/toc.ts";
-import { slugifyHeading } from "../scripts/pipeline/utils.ts";
-import { admonitionsPlugin } from "../scripts/plugins/admonitions.ts";
-import { mathPlugin } from "../scripts/plugins/math.ts";
-import { mermaidPlugin } from "../scripts/plugins/mermaid.ts";
+import { parseFrontmatter } from "../packages/compiler-ts/scripts/pipeline/frontmatter.ts";
+import { parseCodeInfo } from "../packages/compiler-ts/scripts/pipeline/renderer.ts";
+import { extractTOC } from "../packages/compiler-ts/scripts/pipeline/toc.ts";
+import { slugifyHeading } from "../packages/compiler-ts/scripts/pipeline/utils.ts";
+import { admonitionsPlugin } from "../packages/compiler-ts/scripts/plugins/admonitions.ts";
+import { mathPlugin } from "../packages/compiler-ts/scripts/plugins/math.ts";
+import { mermaidPlugin } from "../packages/compiler-ts/scripts/plugins/mermaid.ts";
 
 // ─── Frontmatter ─────────────────────────────────────────────────────────
 

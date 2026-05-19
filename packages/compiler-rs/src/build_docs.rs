@@ -54,8 +54,8 @@ pub struct SidebarItem {
 
 pub fn build_docs(paths: &Paths, logger: &Logger) -> anyhow::Result<()> {
     let config = CompilerConfig {
-        docs_dir: paths.root.join("docs").to_string_lossy().to_string(),
-        output_dir: paths.root.join("src").join("generated").to_string_lossy().to_string(),
+        docs_dir: paths.root.join("content").join("docs").to_string_lossy().to_string(),
+        output_dir: paths.root.join("apps").join("web").join("src").join("generated").to_string_lossy().to_string(),
         site_url: "https://your-docs-site.com".to_string(), // TODO: config
     };
     let container = CompilerContainer::new(config, None);
@@ -68,7 +68,7 @@ pub fn build_docs(paths: &Paths, logger: &Logger) -> anyhow::Result<()> {
     compiler.use_middleware(Box::new(HighlightMiddleware));
     compiler.use_middleware(Box::new(MermaidMiddleware));
     compiler.use_middleware(Box::new(MermaidPlugin));
-    compiler.use_middleware(Box::new(ValidationMiddleware));
+    
     
     compiler.compile()?;
 

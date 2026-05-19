@@ -9,4 +9,4 @@
 export { ArticleFooter } from "./ArticleFooter";
 export { DocFooter } from "./DocFooter";
 export { DocStatsFooter } from "./DocStatsFooter";
-export { DocViewer } from "./DocViewer";
+export { DocViewer, DocViewerWithFallback } from "./DocViewer";

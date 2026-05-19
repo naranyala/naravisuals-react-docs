@@ -18,10 +18,13 @@ export const DocEntrySchema = Type.Object({
   id: Type.String(),
   slug: Type.String(),
   title: Type.String(),
-  sidebar_label: Type.String(),
-  sidebar_position: Type.Number(),
+  sidebar_label: Type.Optional(Type.String()),
+  sidebarLabel: Type.Optional(Type.String()),
+  sidebar_position: Type.Optional(Type.Number()),
+  sidebarPosition: Type.Optional(Type.Number()),
   category: Type.String(),
   original_category: Type.Optional(Type.String()),
+  originalCategory: Type.Optional(Type.String()),
   description: Type.String(),
   content: Type.String(),
   rawContent: Type.String(),
@@ -31,7 +34,10 @@ export const DocEntrySchema = Type.Object({
   tags: Type.Optional(Type.Array(Type.String())),
   section: Type.Union([Type.Literal("docs"), Type.Literal("blog")]),
   metadata: Type.Optional(
-    Type.Record(Type.String(), Type.Union([Type.String(), Type.Array(Type.String())]))
+    Type.Record(
+      Type.String(),
+      Type.Union([Type.String(), Type.Array(Type.String()), Type.Number()])
+    )
   ),
   ast: Type.Optional(Type.Array(Type.Any())),
 });

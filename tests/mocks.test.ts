@@ -10,7 +10,7 @@ import {
   createMockTheme,
   type MockDom,
   type MockRouter,
-} from "../src/services/mocks";
+} from "../apps/web/src/services/mocks";
 
 describe("Mock Storage", () => {
   let s: ReturnType<typeof createMockStorage>;

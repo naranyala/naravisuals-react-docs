@@ -7,12 +7,16 @@
 
 import { describe, expect, test } from "bun:test";
 import { marked } from "marked";
-import { Diagnostics, validateInternalLinks, validateUniqueSlugs } from "../scripts/diagnostics.ts";
-import { parseFrontmatter } from "../scripts/pipeline/frontmatter.ts";
-import { extractTOC } from "../scripts/pipeline/toc.ts";
-import { admonitionsPlugin } from "../scripts/plugins/admonitions.ts";
-import { mathPlugin } from "../scripts/plugins/math.ts";
-import { mermaidPlugin } from "../scripts/plugins/mermaid.ts";
+import {
+  Diagnostics,
+  validateInternalLinks,
+  validateUniqueSlugs,
+} from "../packages/compiler-ts/scripts/diagnostics.ts";
+import { parseFrontmatter } from "../packages/compiler-ts/scripts/pipeline/frontmatter.ts";
+import { extractTOC } from "../packages/compiler-ts/scripts/pipeline/toc.ts";
+import { admonitionsPlugin } from "../packages/compiler-ts/scripts/plugins/admonitions.ts";
+import { mathPlugin } from "../packages/compiler-ts/scripts/plugins/math.ts";
+import { mermaidPlugin } from "../packages/compiler-ts/scripts/plugins/mermaid.ts";
 
 // ─── Large-Scale Content Edge Cases ─────────────────────────────────────
 
@@ -477,7 +481,7 @@ Content
 
 describe("Service container edge cases", () => {
   test("handles multiple rapid theme toggles", () => {
-    const { createMockStorage, createMockTheme } = require("../src/services/mocks");
+    const { createMockStorage, createMockTheme } = require("../apps/web/src/services/mocks");
     const storage = createMockStorage();
     const theme = createMockTheme(storage);
 
@@ -491,7 +495,7 @@ describe("Service container edge cases", () => {
   });
 
   test("handles storage with special characters in keys", () => {
-    const { createMockStorage } = require("../src/services/mocks");
+    const { createMockStorage } = require("../apps/web/src/services/mocks");
     const storage = createMockStorage();
 
     storage.setItem("key with spaces", "value1");
@@ -504,7 +508,7 @@ describe("Service container edge cases", () => {
   });
 
   test("handles router with deeply nested paths", () => {
-    const { createMockRouter } = require("../src/services/mocks");
+    const { createMockRouter } = require("../apps/web/src/services/mocks");
     const router = createMockRouter();
 
     router.pushState({}, "", "/docs/very/deeply/nested/path/with/many/segments");
@@ -512,7 +516,7 @@ describe("Service container edge cases", () => {
   });
 
   test("handles router with query strings", () => {
-    const { createMockRouter } = require("../src/services/mocks");
+    const { createMockRouter } = require("../apps/web/src/services/mocks");
     const router = createMockRouter();
 
     router.pushState({}, "", "/docs/page?param1=value1&param2=value2");
@@ -520,7 +524,7 @@ describe("Service container edge cases", () => {
   });
 
   test("handles DOM service with invalid element IDs", () => {
-    const { createMockDom } = require("../src/services/mocks");
+    const { createMockDom } = require("../apps/web/src/services/mocks");
     const dom = createMockDom();
 
     expect(dom.getElementById("")).toBeNull();

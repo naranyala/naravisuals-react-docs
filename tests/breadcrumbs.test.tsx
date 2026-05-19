@@ -4,7 +4,7 @@
 
 import { describe, expect, test } from "bun:test";
 import { within } from "@testing-library/react";
-import { Breadcrumbs } from "../src/features/navigation/Breadcrumbs";
+import { Breadcrumbs } from "../apps/web/src/features/navigation/Breadcrumbs";
 import { renderWithServices } from "./test-utils";
 
 describe("Breadcrumbs", () => {

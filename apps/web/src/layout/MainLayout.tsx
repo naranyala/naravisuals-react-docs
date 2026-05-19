@@ -2,6 +2,7 @@ import { clsx } from "clsx";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { match } from "ts-pattern";
+import { useSidebar } from "../contexts/GeneratedDataContext";
 import { useUIState } from "../core/store";
 import { deslugify, stripTitlePrefix } from "../core/utils";
 import { useMetadata } from "../features/metadata/MetadataProvider";
@@ -10,17 +11,16 @@ import { GlobalSearch } from "../features/search/GlobalSearch";
 import { useSearch } from "../features/search/SearchProvider";
 import { useSeo } from "../features/seo";
 import { useDocsTheme } from "../features/theme";
-import { allDocs, sidebarData } from "../generated";
 import { useServices } from "../services";
 import { useKeyboardShortcut, useTitle } from "../shared/hooks";
 import "../shared/styles/index.css";
 
+import { DocEntrySchema } from "@naravisuals/shared-types";
 import { TypeCompiler } from "@sinclair/typebox/compiler";
 import { ASTViewer } from "../features/ast-viewer/ASTViewer";
-import { DocViewer } from "../features/docs";
+import { DocViewerWithFallback } from "../features/docs";
 import { ArticleFooter } from "../features/docs/ArticleFooter";
 import { FrontmatterGraph, WordStatsPanel } from "../features/metadata";
-import { DocEntrySchema } from "@naravisuals/shared-types";
 import { AppShell } from "./components/AppShell";
 import { MockupMenuPanel } from "./components/MockupMenuPanel";
 import { SettingsPanel } from "./components/SettingsPanel";
@@ -31,10 +31,58 @@ import { printAllDocs } from "./utils/print-engine";
 
 const docValidator = TypeCompiler.Compile(DocEntrySchema);
 
+function DataLoadingError({
+  type,
+  error,
+  onRetry,
+}: {
+  type: "sidebar" | "docs";
+  error: Error;
+  onRetry: () => void;
+}) {
+  return (
+    <div className={`data-loading-error data-loading-error--${type}`}>
+      <div className="error-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <title>Warning</title>
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
+      </div>
+      <span className="error-text">
+        Failed to load {type}: {error.message}
+      </span>
+      <button type="button" className="error-retry-btn" onClick={onRetry}>
+        Retry
+      </button>
+    </div>
+  );
+}
+
+function EmptyState({ message }: { message: string }) {
+  return (
+    <div className="site-wrapper">
+      <div className="top-bar">
+        <h1 className="site-title">Documentation</h1>
+      </div>
+      <div className="empty-state">
+        <p>{message}</p>
+      </div>
+    </div>
+  );
+}
+
 export function MainLayout() {
   const services = useServices();
   const { sidebar: sidebarService } = services;
   const docsTheme = useDocsTheme();
+
+  const {
+    sidebar: sidebarFromContext,
+    error: sidebarError,
+    isLoading: sidebarLoading,
+  } = useSidebar();
 
   const [mermaidLoading, setMermaidLoading] = useState(false);
 
@@ -44,12 +92,17 @@ export function MainLayout() {
     });
   }, [services.events]);
 
-  // ─── Local Navigation Logic ───────────────────────────────────────
-  // We use the hook to get the initial doc based on the URL
-  const { currentDoc, currentSlug, navigate, getDocsInSidebarOrder, setCurrentSlug, resolveSlug } =
-    useNavigation(services);
+  const {
+    currentDoc,
+    currentSlug,
+    navigate,
+    getDocsInSidebarOrder,
+    setCurrentSlug,
+    resolveSlug,
+    docsError,
+    docsLoading,
+  } = useNavigation(services, sidebarFromContext ?? []);
 
-  // Track sidebar navigation path for breadcrumbs
   const [sidebarPath, setSidebarPath] = useState(sidebarService.getCurrentPath());
 
   useEffect(() => {
@@ -59,7 +112,6 @@ export function MainLayout() {
     return unsubscribe;
   }, [sidebarService]);
 
-  // Runtime validation of current document
   useEffect(() => {
     if (currentDoc) {
       const doc = currentDoc as any;
@@ -70,8 +122,6 @@ export function MainLayout() {
     }
   }, [currentDoc]);
 
-  // ─── Reactive State ───────────────────────────────────────────────
-  // We consume the reactive state for UI flags
   const {
     isMobile,
     sidebarVisible,
@@ -92,7 +142,6 @@ export function MainLayout() {
   const { setSearch } = useSearch();
   const { wordStatsOpen, setWordStatsOpen } = useMetadata();
 
-  // ─── Responsive Handling ──────────────────────────────────────────
   useEffect(() => {
     const update = () => {
       updateResponsive(
@@ -111,7 +160,6 @@ export function MainLayout() {
     }
   }, [isMobile, setSidebar]);
 
-  // ─── Side Effects ──────────────────────────────────────────────────
   useTitle(currentDoc?.title || "", services.config.siteTitle);
 
   useSeo({
@@ -138,8 +186,6 @@ export function MainLayout() {
     return unsubscribe;
   }, [services, resolveSlug, setCurrentSlug, setSidebar]);
 
-  // ─── Scroll to Top on Navigation ──────────────────────────────────
-  // biome-ignore lint/correctness/useExhaustiveDependencies: We want to force scroll to top on every slug change
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, [currentDoc?.slug]);
@@ -173,14 +219,14 @@ export function MainLayout() {
     return undefined;
   }, []);
 
+  const sidebarData = sidebarFromContext ?? [];
+
   const breadcrumbs = useMemo(() => {
     const root = { label: deslugify(services.config.siteTitle || "Docs"), slug: "abstract" };
 
-    // Find the actual structural path of the current document
     const docPathResult = sidebarService.resolvePathForSlug(sidebarData, currentSlug);
     const actualDocPath = docPathResult.isOk() ? docPathResult.value : [];
 
-    // The active path is what the user is currently seeing in the sidebar
     const activePath = sidebarPath;
 
     const intermediates = activePath.map((p) => ({
@@ -188,9 +234,6 @@ export function MainLayout() {
       slug: p.link?.id ?? getFirstDocSlug(p) ?? "abstract",
     }));
 
-    // We show the current document if:
-    // 1. It exists.
-    // 2. It is actually a descendant of the currently active sidebar path.
     const isDescendant =
       actualDocPath.length >= activePath.length &&
       actualDocPath.slice(0, activePath.length).every((p, i) => p.label === activePath[i]?.label);
@@ -207,19 +250,29 @@ export function MainLayout() {
     sidebarPath,
     sidebarService,
     getFirstDocSlug,
+    sidebarData,
   ]);
 
-  if (!currentDoc) {
+  if (sidebarLoading || docsLoading) {
     return (
       <div className="site-wrapper">
         <div className="top-bar">
           <h1 className="site-title">{services.config.siteTitle}</h1>
         </div>
-        <div className="empty-state">
-          <p>No documentation found.</p>
+        <div className="loading-state">
+          <div className="loading-spinner" />
+          <p>Loading documentation...</p>
         </div>
       </div>
     );
+  }
+
+  if (sidebarError && !sidebarData.length) {
+    return <EmptyState message={`Failed to load sidebar: ${sidebarError.message}`} />;
+  }
+
+  if (!currentDoc && !docsError) {
+    return <EmptyState message="No documentation found." />;
   }
 
   return (
@@ -250,7 +303,7 @@ export function MainLayout() {
         isOpen={menuOpen}
         onClose={() => setMenuOpen(false)}
         onPrint={async () => {
-          await printAllDocs(allDocs as any, services.config, services.dom);
+          await printAllDocs(sorted, services.config, services.dom);
         }}
         onToggleSettings={() => setSettingsOpen(!settingsOpen)}
         isTopDrawer={true}
@@ -260,13 +313,22 @@ export function MainLayout() {
       <ThreeColumnLayout
         sidebarCollapsed={!sidebarVisible}
         sidebar={
-          <Sidebar
-            sidebar={sidebarData}
-            currentSlug={currentSlug}
-            onNavigate={handleNavigate}
-            isMobile={isMobile}
-            articlePosition={idx >= 0 ? { current: idx + 1, total: sorted.length } : undefined}
-          />
+          <>
+            {sidebarError && sidebarData.length > 0 && (
+              <DataLoadingError
+                type="sidebar"
+                error={sidebarError}
+                onRetry={() => window.location.reload()}
+              />
+            )}
+            <Sidebar
+              sidebar={sidebarData}
+              currentSlug={currentSlug}
+              onNavigate={handleNavigate}
+              isMobile={isMobile}
+              articlePosition={idx >= 0 ? { current: idx + 1, total: sorted.length } : undefined}
+            />
+          </>
         }
         content={
           <>
@@ -285,9 +347,9 @@ export function MainLayout() {
               </div>
             </div>
 
-            <h1 className="sr-only">{currentDoc.title}</h1>
+            <h1 className="sr-only">{currentDoc?.title || "Document"}</h1>
 
-            {isTocMobile && currentDoc.toc.length > 0 && (
+            {isTocMobile && currentDoc?.toc && currentDoc.toc.length > 0 && (
               <div className="toc-mobile-collapsible">
                 <button type="button" className="toc-mobile-header" onClick={() => toggleToc()}>
                   <span>Table of Contents</span>
@@ -297,47 +359,83 @@ export function MainLayout() {
               </div>
             )}
 
-            {match(viewMode)
-              .with("view", () => (
-                <>
-                  <DocViewer html={currentDoc.content} slug={currentDoc.slug} />
-                  <ArticleFooter
-                    contentHtml={currentDoc.content}
-                    markdownAst={currentDoc.ast}
-                    onNavigate={handleNavigate}
-                    prevDoc={
-                      prevDoc
-                        ? {
-                            title: stripTitlePrefix(prevDoc.sidebar_label || prevDoc.title),
-                            slug: prevDoc.slug,
-                          }
-                        : undefined
-                    }
-                    nextDoc={
-                      nextDoc
-                        ? {
-                            title: stripTitlePrefix(nextDoc.sidebar_label || nextDoc.title),
-                            slug: nextDoc.slug,
-                          }
-                        : undefined
-                    }
-                  />
-                </>
-              ))
-              .with("ast", () => (
-                <div className="ast-content-viewer">
-                  <ASTViewer ast={currentDoc.ast as any} />
+            {docsError && !currentDoc ? (
+              <div className="doc-content-error">
+                <div className="error-container">
+                  <div className="error-icon">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                    >
+                      <title>Error</title>
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="12" y1="8" x2="12" y2="12" />
+                      <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                  </div>
+                  <h2 className="error-title">Failed to load document</h2>
+                  <p className="error-message">{docsError.message}</p>
+                  <button
+                    type="button"
+                    className="error-retry-btn"
+                    onClick={() => window.location.reload()}
+                  >
+                    Retry
+                  </button>
                 </div>
-              ))
-              .with("raw", () => (
-                <div className="raw-content-viewer">
-                  <pre className="raw-markdown">{currentDoc.rawContent}</pre>
-                </div>
-              ))
-              .exhaustive()}
+              </div>
+            ) : currentDoc ? (
+              match(viewMode)
+                .with("view", () => (
+                  <>
+                    <DocViewerWithFallback html={currentDoc.content} slug={currentDoc.slug} />
+                    <ArticleFooter
+                      contentHtml={currentDoc.content}
+                      markdownAst={currentDoc.ast}
+                      onNavigate={handleNavigate}
+                      prevDoc={
+                        prevDoc
+                          ? {
+                              title: stripTitlePrefix(prevDoc.sidebar_label || prevDoc.title),
+                              slug: prevDoc.slug,
+                            }
+                          : undefined
+                      }
+                      nextDoc={
+                        nextDoc
+                          ? {
+                              title: stripTitlePrefix(nextDoc.sidebar_label || nextDoc.title),
+                              slug: nextDoc.slug,
+                            }
+                          : undefined
+                      }
+                    />
+                  </>
+                ))
+                .with("ast", () => (
+                  <div className="ast-content-viewer">
+                    <ASTViewer ast={currentDoc.ast as any} />
+                  </div>
+                ))
+                .with("raw", () => (
+                  <div className="raw-content-viewer">
+                    <pre className="raw-markdown">{currentDoc.rawContent}</pre>
+                  </div>
+                ))
+                .exhaustive()
+            ) : null}
+
+            {docsError && currentDoc && (
+              <div className="doc-content-warning">
+                <span>Some content features may be unavailable due to loading errors.</span>
+              </div>
+            )}
           </>
         }
-        reference={<TableOfContents items={currentDoc.toc} />}
+        reference={currentDoc?.toc ? <TableOfContents items={currentDoc.toc} /> : undefined}
       />
     </AppShell>
   );

@@ -2,6 +2,7 @@ import { setup } from "goober";
 import type { ReactElement, ReactNode } from "react";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { GeneratedDataProvider } from "./contexts/GeneratedDataContext";
 import { ErrorBoundary } from "./core/error-handling";
 import { StoreProvider } from "./core/store";
 import { MetadataProvider } from "./features/metadata/MetadataProvider";
@@ -47,11 +48,13 @@ root.render(
     <ErrorBoundary>
       <ServicesProvider container={defaultContainer}>
         <StoreProvider>
-          <MetadataProvider>
-            <SearchProvider>
-              <MainLayout />
-            </SearchProvider>
-          </MetadataProvider>
+          <GeneratedDataProvider>
+            <MetadataProvider>
+              <SearchProvider>
+                <MainLayout />
+              </SearchProvider>
+            </MetadataProvider>
+          </GeneratedDataProvider>
         </StoreProvider>
       </ServicesProvider>
     </ErrorBoundary>

@@ -6,11 +6,17 @@ import { useServices } from "../../../services";
  *
  * Handles late-binding enhancements like Mermaid and MathJax
  * on the rendered HTML content.
+ *
+ * @param ref - Ref to the container element
+ * @param slug - Document slug for event tracking
+ * @param _html - HTML content (unused but kept for future dependency tracking)
+ * @param onError - Optional error callback for enhancement failures
  */
 export function useDocumentEnhancer(
   ref: RefObject<HTMLDivElement | null>,
   slug: string,
-  _html: string
+  _html: string,
+  onError?: (error: Error) => void
 ) {
   const { events } = useServices();
 
@@ -104,6 +110,7 @@ export function useDocumentEnhancer(
                 <pre class="mermaid-error-msg">${e instanceof Error ? e.message : String(e)}</pre>
               </div>`;
               mermaidEl.style.visibility = "visible";
+              onError?.(e instanceof Error ? e : new Error(String(e)));
             }
           }
         }
@@ -513,5 +520,5 @@ export function useDocumentEnhancer(
       mounted = false;
       clearTimeout(timer);
     };
-  }, [slug, ref, events]);
+  }, [slug, ref, events, onError]);
 }

@@ -4,8 +4,8 @@
 
 import { describe, expect, test } from "bun:test";
 import { render } from "@testing-library/react";
-import { createContainer } from "../src/services/container";
-import { createMockStorage, createMockTheme } from "../src/services/mocks";
+import { createContainer } from "../apps/web/src/services/container";
+import { createMockStorage, createMockTheme } from "../apps/web/src/services/mocks";
 import {
   ProvideService,
   ServicesProvider,
@@ -13,7 +13,7 @@ import {
   useService,
   useServices,
   useServicesList,
-} from "../src/services/provider";
+} from "../apps/web/src/services/provider";
 
 // ─── ServicesProvider ─────────────────────────────────────────────────────
 

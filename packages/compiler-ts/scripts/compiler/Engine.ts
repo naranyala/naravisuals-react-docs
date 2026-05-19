@@ -4,11 +4,11 @@
  */
 
 import * as path from "node:path";
+import { DocEntrySchema } from "@naravisuals/shared-types";
 import { TypeCompiler } from "@sinclair/typebox/compiler";
 import glob from "fast-glob";
 import { marked } from "marked";
 import type { Highlighter } from "shiki";
-import { DocEntrySchema } from "@naravisuals/shared-types";
 import { parseFrontmatter } from "../pipeline/frontmatter.ts";
 import {
   cleanGeneratedDir,

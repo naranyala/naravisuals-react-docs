@@ -5,7 +5,7 @@
  */
 
 import { describe, expect, test } from "bun:test";
-import { validateMermaidContent } from "../scripts/plugins/validators/mermaid-content.ts";
+import { validateMermaidContent } from "../packages/compiler-ts/scripts/plugins/validators/mermaid-content.ts";
 
 describe("Mermaid Content Validation", () => {
   describe("Empty content validation", () => {
