@@ -32,16 +32,17 @@ The application is transitioning from local component state and scattered event 
 - Quality Gate: Integrated Biome (linting) and tsc (type checking) into the build process.
 
 ## In Progress
-- Document Lifecycle and Enhancement State:
-    - Moved Mermaid loading states into IThemeService.
-    - Create a dedicated ContentService to manage overall content rendering and loading states.
-    - Implement centralized "is Rendering" state for global progress indicators.
+
+### Document Lifecycle and Enhancement State
+- Moved Mermaid loading states into IThemeService.
+- Creating a dedicated ContentService to manage overall content rendering and loading states.
+- Implementing centralized rendering state for global progress indicators.
 
 ## Planned Rewrites
 
 ### 1. Search State Management
 - Current State: Search logic is embedded in features/search.
-- Goal: Create a SearchService that manages the search query, results, and active filters.
+- Goal: Create a SearchService to manage the search query, results, and active filters.
 - Key Changes:
     - Implement a reactive query state.
     - Emit search:resultsChanged events.
@@ -55,7 +56,8 @@ The application is transitioning from local component state and scattered event 
     - Emit events when panels open/close to adjust main content margins.
 
 ## Implementation Guidelines
-- Service-First: Logic must live in a service, not a component.
+
+- Service-First: Logic must reside in a service, not a component.
 - Event-Driven: Use IEventBusService for cross-cutting concerns.
 - Functional Errors: Use better-result for any operation that can fail (lookups, API calls, parsing).
 - DI Pattern: All services must be registered in ServiceContainer.
