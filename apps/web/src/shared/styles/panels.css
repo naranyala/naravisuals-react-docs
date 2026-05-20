@@ -235,3 +235,89 @@
   background: rgba(37, 99, 235, 0.1);
   color: var(--ifm-color-primary);
 }
+
+/* Context Menu Sidebar (Push Layout) */
+.context-menu-sidebar {
+  width: 0;
+  height: calc(100vh - var(--topbar-height));
+  position: sticky;
+  top: var(--topbar-height);
+  background: var(--bg);
+  border-left: none;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.context-menu-sidebar.open {
+  width: 340px;
+  border-left: 1px solid var(--border);
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
+}
+
+.context-menu-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-surface);
+  flex-shrink: 0;
+}
+
+.context-menu-sidebar-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.context-menu-sidebar-close {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.context-menu-sidebar-close:hover {
+  background: var(--bg-surface);
+  color: var(--text);
+  border-color: var(--text-secondary);
+}
+
+.context-menu-sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem;
+}
+
+.sidebar-grid {
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 0.75rem;
+  padding: 0.75rem;
+}
+
+.sidebar-grid .mockup-menu-item {
+  padding: 1.25rem 0.75rem;
+  gap: 0.5rem;
+}
+
+.sidebar-grid .menu-item-icon {
+  font-size: 1.5rem;
+}
+
+.sidebar-grid .menu-item-label {
+  font-size: 0.8rem;
+  text-align: center;
+}

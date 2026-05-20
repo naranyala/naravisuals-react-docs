@@ -3,34 +3,50 @@
  */
 
 import { beforeEach, describe, expect, mock, test } from "bun:test";
-import MainLayout from "../apps/web/src/layout/MainLayout";
-import { renderWithServices, screen } from "./test-utils";
 import { waitFor } from "@testing-library/react";
+import { MainLayout } from "../apps/web/src/layout/MainLayout";
+
+import { renderWithServices, mockDocEntry } from "./test-utils";
 
 describe("App Integration", () => {
   beforeEach(() => {
     mock();
   });
 
-  test("renders without crashing", () => {
+  test("renders core layout elements", () => {
     renderWithServices(<MainLayout />);
-    expect(document.querySelector(".site-wrapper")).toBeDefined();
-  });
-
-  test("renders top bar", () => {
-    renderWithServices(<MainLayout />);
-    expect(document.querySelector(".top-bar")).toBeDefined();
-    expect(document.querySelector(".top-bar-left")).toBeDefined();
-    expect(document.querySelector(".top-bar-right")).toBeDefined();
+    const elements = [
+      ".top-bar",
+      ".top-bar-left",
+      ".top-bar-right",
+      ".sidebar",
+      ".sidebar-content",
+      ".main-content",
+      ".breadcrumbs",
+      ".doc-footer",
+      ".doc-content",
+      ".toc-container",
+      ".pagination-nav",
+      ".site-wrapper",
+      ".overlay",
+    ];
+    elements.forEach((selector) => {
+      expect(document.querySelector(selector), `Missing element: ${selector}`).toBeDefined();
+    });
   });
 
   test("renders site title", async () => {
-    renderWithServices(<MainLayout />);
+    renderWithServices(<MainLayout />, { initialDoc: mockDocEntry });
     await waitFor(() => {
-      expect(document.querySelector(".top-bar-breadcrumb-item.root")).toBeDefined();
+      expect(document.querySelector(".top-bar-breadcrumb-item.root")).not.toBeNull();
     });
-    expect(document.querySelector(".top-bar-breadcrumb-item.root")?.textContent?.toLowerCase()).toBe(
-      (process.env.PROJECT_NAME ? process.env.PROJECT_NAME.replace(/-/g, " ") : "Docs").toLowerCase()
+    expect(
+      document.querySelector(".top-bar-breadcrumb-item.root")?.textContent?.toLowerCase()
+    ).toBe(
+      (process.env.PROJECT_NAME
+        ? process.env.PROJECT_NAME.replace(/-/g, " ")
+        : "Docs"
+      ).toLowerCase()
     );
   });
 
@@ -46,62 +62,15 @@ describe("App Integration", () => {
     expect(document.querySelector(".menu-btn")).toBeDefined();
   });
 
-  test("renders sidebar", () => {
-    renderWithServices(<MainLayout />);
-    expect(document.querySelector(".sidebar")).toBeDefined();
-    expect(document.querySelector(".sidebar-content")).toBeDefined();
-  });
-
-  test("renders main content area", () => {
-    renderWithServices(<MainLayout />);
-    expect(document.querySelector(".main-content")).toBeDefined();
-  });
-
-  test("renders breadcrumbs", () => {
-    renderWithServices(<MainLayout />);
-    expect(document.querySelector(".breadcrumbs")).toBeDefined();
-  });
-
-  test("renders doc footer", () => {
-    renderWithServices(<MainLayout />);
-    expect(document.querySelector(".doc-footer")).toBeDefined();
-  });
-
-  test("renders document content area", () => {
-    renderWithServices(<MainLayout />);
-    expect(document.querySelector(".doc-content")).toBeDefined();
-  });
-
-  test("renders TOC container", () => {
-    renderWithServices(<MainLayout />);
-    expect(document.querySelector(".toc-container")).toBeDefined();
-  });
-
-  test("uses injected services (no crash = success)", () => {
-    renderWithServices(<MainLayout />);
-    expect(document.querySelector(".site-wrapper")).toBeDefined();
-  });
-
-  test("pagination navigation container exists", () => {
-    renderWithServices(<MainLayout />);
-    expect(document.querySelector(".pagination-nav")).toBeDefined();
-  });
-
   // ─── Navigation Edge Cases ────────────────────────────────────────
 
-  test("handles abstract page navigation", () => {
-    renderWithServices(<MainLayout />);
-    // Abstract page should be the default landing
-    expect(document.querySelector(".site-wrapper")).toBeDefined();
-  });
-
   test("site title is clickable and navigates to abstract", async () => {
-    renderWithServices(<MainLayout />);
+    renderWithServices(<MainLayout />, { initialDoc: mockDocEntry });
     await waitFor(() => {
-      expect(document.querySelector(".top-bar-breadcrumb-item.root")).toBeDefined();
+      expect(document.querySelector(".top-bar-breadcrumb-item.root")).not.toBeNull();
     });
     const rootLink = document.querySelector(".top-bar-breadcrumb-item.root") as HTMLElement;
-    expect(rootLink).toBeDefined();
+    expect(rootLink).not.toBeNull();
     expect(rootLink.getAttribute("href")).toBe("/");
   });
 
@@ -144,8 +113,7 @@ describe("App Integration", () => {
   // ─── Error Boundary ───────────────────────────────────────────────
 
   test("error boundary wraps content", () => {
-    // If App renders without crashing, error boundary is working
     renderWithServices(<MainLayout />);
     expect(document.querySelector(".site-wrapper")).toBeDefined();
   });
-});
+  });

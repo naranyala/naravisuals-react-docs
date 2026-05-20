@@ -74,30 +74,32 @@ export function TableOfContents({ items }: TableOfContentsProps) {
   return (
     <div className="toc">
       <ul className="toc-list">
-        {items.map((item) => {
-          const isActive = activeHash === `#${item.id}`;
-          return (
-            <li
-              key={item.id}
-              className={clsx("toc-item", `toc-item-level-${item.level}`, { active: isActive })}
-            >
-              <a
-                href={`#${item.id}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  const target = document.getElementById(item.id);
-                  if (target) {
-                    target.scrollIntoView({ behavior: "smooth", block: "start" });
-                  }
-                  window.history.pushState({}, "", `#${item.id}`);
-                  setActiveHash(`#${item.id}`);
-                }}
+        {items
+          .filter((item) => item.value.toLowerCase() !== "references")
+          .map((item) => {
+            const isActive = activeHash === `#${item.id}`;
+            return (
+              <li
+                key={item.id}
+                className={clsx("toc-item", `toc-item-level-${item.level}`, { active: isActive })}
               >
-                {cleanTOCText(item.value)}
-              </a>
-            </li>
-          );
-        })}
+                <a
+                  href={`#${item.id}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const target = document.getElementById(item.id);
+                    if (target) {
+                      target.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }
+                    window.history.pushState({}, "", `#${item.id}`);
+                    setActiveHash(`#${item.id}`);
+                  }}
+                >
+                  {cleanTOCText(item.value)}
+                </a>
+              </li>
+            );
+          })}
       </ul>
     </div>
   );

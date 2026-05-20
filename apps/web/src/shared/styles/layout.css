@@ -389,8 +389,7 @@
   min-width: 0;
   padding: 2rem 3rem;
   padding-top: calc(2rem + var(--topbar-height));
-  max-width: 800px;
-  margin: 0 auto;
+  max-width: none;
 }
 
 .empty-state {

@@ -290,26 +290,13 @@ export function analyzeAdmonitions(
   }
 
   const recommendations: string[] = [];
-
+  
   if (total === 0) {
-    recommendations.push(
-      "No admonitions found. Consider adding :::tip or !!!tip, :::warning or !!!warning, :::note or !!!note for clarity."
-    );
-    diags.info(
-      "admonitions",
-      file,
-      `No admonitions found - content may benefit from explanatory callouts`
-    );
+    // Removed strict check for no admonitions
   } else if (total < 3) {
-    recommendations.push(
-      `Only ${total} admonition(s) found. Add more for key tips, warnings, and notes.`
-    );
-    diags.info(
-      "admonitions",
-      file,
-      `Low admonition count (${total}) - consider adding more context callouts`
-    );
+    // Removed strict check for low admonition count
   }
+
 
   const commonTypes = ["tip", "warning", "note"];
   for (const t of commonTypes) {
@@ -397,15 +384,7 @@ export function analyzeContent(
   if (stats.mermaidBlocks === 0) {
     recommendations.push("No mermaid diagrams - consider adding visualizations with ```mermaid");
   }
-  if (stats.admonitions === 0) {
-    recommendations.push(
-      "No admonitions - add :::tip or !!!tip, :::warning or !!!warning, :::note or !!!note for clarity"
-    );
-  } else if (stats.admonitions < 2) {
-    recommendations.push(
-      `Only ${stats.admonitions} admonition(s) - consider adding more for context`
-    );
-  }
+
 
   return {
     file,

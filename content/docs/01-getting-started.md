@@ -1,7 +1,7 @@
 ---
 title: Getting Started
 description: Environment setup and creating your first Avalonia application.
-sidebar_label: Getting Started
+sidebar_label: Getting Started Overview
 sidebar_position: 2
 tags: ["setup", "installation", "dotnet"]
 ---

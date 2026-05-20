@@ -43,7 +43,15 @@ interface StoreContextType {
 
 const StoreContext = createContext<StoreContextType | null>(null);
 
-export function StoreProvider({ children }: { children: React.ReactNode }) {
+export function StoreProvider({ 
+  children, 
+  initialDoc = null, 
+  initialSlug = "" 
+}: { 
+  children: React.ReactNode; 
+  initialDoc?: DocEntry | null; 
+  initialSlug?: string; 
+}) {
   // UI State
   const [uiState, setUiState] = useState<UIState>({
     sidebarVisible: true,
@@ -57,8 +65,8 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
   // Doc State
   const [docState, setDocState] = useState<DocState>({
-    currentSlug: "",
-    currentDoc: null,
+    currentSlug: initialSlug,
+    currentDoc: initialDoc,
   });
 
   // UI Actions

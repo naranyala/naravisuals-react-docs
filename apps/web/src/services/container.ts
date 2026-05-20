@@ -8,7 +8,8 @@
 import { type AppConfig, AppConfigSchema } from "@naravisuals/shared-types";
 import { TypeCompiler } from "@sinclair/typebox/compiler";
 import { Err, Ok, type Result } from "better-result";
-import type { SidebarCategoryItem, SidebarItem } from "@/generated";
+import type { DocEntry, SidebarCategoryItem, SidebarItem } from "@/generated";
+
 import { createEventBusService, type IEventBusService } from "./event-bus";
 
 // ─── Service Interfaces ───────────────────────────────────────────────────
@@ -26,6 +27,16 @@ export interface ISidebarService {
     slug: string
   ): Result<SidebarCategoryItem[], Error>;
   onPathChange(callback: (path: readonly SidebarCategoryItem[]) => void): () => void;
+}
+
+/**
+ * Documentation Service - manages document retrieval and tree building
+ */
+export interface IDocsService {
+  getAllDocs(): readonly DocEntry[];
+  getSortedDocs(): readonly DocEntry[];
+  getDocBySlug(slug: string): DocEntry | undefined;
+  getDocTree(): readonly SidebarItem[];
 }
 
 /**
@@ -92,6 +103,7 @@ export interface ServiceContainer {
   dom: IDomService;
   theme: IThemeService;
   sidebar: ISidebarService;
+  docs: IDocsService;
   config: IAppConfig;
   events: IEventBusService;
 }
@@ -282,11 +294,25 @@ export const createThemeService = (
 };
 
 /**
+ * Default documentation service
+ */
+export const createDocsService = (allDocs: any[], sidebarData: any[]): IDocsService => {
+  const sortedDocs = [...allDocs].sort((a, b) => a.slug.localeCompare(b.slug));
+
+  return {
+    getAllDocs: () => allDocs,
+    getSortedDocs: () => sortedDocs,
+    getDocBySlug: (slug) => allDocs.find((d) => d.slug === slug || d.id === slug),
+    getDocTree: () => sidebarData,
+  };
+};
+
+/**
  * Default app config
  */
 export const createAppConfig = (overrides?: Partial<IAppConfig>): IAppConfig => {
   const config = {
-    siteTitle: (process.env.PROJECT_NAME as string) || "",
+    siteTitle: (process.env.PROJECT_NAME as string || "").replace(/-/g, " "),
     siteUrl: (process.env.SITE_URL as string) || "http://localhost:3000",
 
     repoEditUrl: "https://github.com/your-org/your-repo/edit/main",
@@ -316,6 +342,7 @@ export interface ContainerOptions {
   dom?: IDomService;
   theme?: IThemeService;
   sidebar?: ISidebarService;
+  docs?: IDocsService;
   events?: IEventBusService;
 }
 
@@ -329,9 +356,14 @@ export function createContainer(options: ContainerOptions = {}): ServiceContaine
   const events = options.events ?? createEventBusService();
   const theme = options.theme ?? createThemeService(storage, events);
   const sidebar = options.sidebar ?? createSidebarService(events);
+
+  // Late bind generated data to avoid circular deps if any
+  const { allDocs, sidebarData } = require("../generated");
+  const docs = options.docs ?? createDocsService(allDocs, sidebarData);
+
   const config = createAppConfig(options.config);
 
-  return { storage, router, dom, theme, sidebar, config, events };
+  return { storage, router, dom, theme, sidebar, docs, config, events };
 }
 
 /**

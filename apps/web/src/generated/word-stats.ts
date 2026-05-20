@@ -333,6 +333,10 @@ export const wordStats = [
     "count": 3
   },
   {
+    "word": "overview",
+    "count": 3
+  },
+  {
     "word": "installation",
     "count": 3
   },
@@ -794,10 +798,6 @@ export const wordStats = [
   },
   {
     "word": "prerequisites",
-    "count": 1
-  },
-  {
-    "word": "official",
     "count": 1
   }
 ];

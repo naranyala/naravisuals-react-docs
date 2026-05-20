@@ -55,12 +55,10 @@ export class ReportGenerator {
         const lineInfo = issue.line ? c(`:${issue.line}`, "dim") : "";
         const fileDisplay = c(issue.file, "dim") + lineInfo;
 
-        console.log(`${badge}  ${fileDisplay}`);
-        console.log(`       ${issue.message}`);
+        console.log(`${badge}  ${fileDisplay}  ${issue.message}`);
         if (issue.detail) {
           console.log(`       ${c("→", "dim")} ${c(issue.detail, "dim")}`);
         }
-        console.log("");
       }
     }
 

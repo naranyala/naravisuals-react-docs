@@ -171,3 +171,11 @@
 .table-enhanced-container {
   overflow: auto;
 }
+
+/* Hide References section from within the markdown content */
+[id^="references"],
+[id^="references"] + ul,
+[id^="references"] + p,
+[id^="references"] + ol {
+  display: none !important;
+}

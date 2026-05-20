@@ -70,6 +70,50 @@ function runCommand(command: string, args: string[], options: any = {}) {
 }
 
 /**
+ * Run a command with compact output, only showing details on failure
+ */
+async function runCompact(title: string, command: string, args: string[], options: any = {}) {
+  process.stdout.write(`${colors.cyan}▸ ${title}... ${colors.reset}`);
+
+  const startTime = Date.now();
+
+  try {
+    let output = "";
+    const result = await new Promise((resolve, reject) => {
+      const child = spawn(command, args, {
+        stdio: "pipe",
+        env: { ...process.env, ...options.env },
+        cwd: options.cwd || projectRoot,
+        shell: true,
+      });
+
+      child.stdout?.on("data", (data) => {
+        output += data.toString();
+      });
+      child.stderr?.on("data", (data) => {
+        output += data.toString();
+      });
+
+      child.on("close", (code) => {
+        if (code === 0) resolve(code);
+        else reject(new Error(output));
+      });
+    });
+
+    const duration = ((Date.now() - startTime) / 1000).toFixed(1);
+    process.stdout.write(`${colors.green}✓ Done (${duration}s)${colors.reset}\n`);
+    return result;
+  } catch (error: any) {
+    process.stdout.write(`${colors.red}✖ Failed${colors.reset}\n`);
+    logger.blank();
+    logger.raw("--- Command Output ---", colors.red);
+    logger.raw(error.message, colors.dim);
+    logger.raw("----------------------", colors.red);
+    throw new Error(`${title} failed`);
+  }
+}
+
+/**
  * Check if a port is available
  */
 function isPortAvailable(port: number): Promise<boolean> {
@@ -97,10 +141,8 @@ async function findAvailablePort(startPort: number, maxAttempts = 10): Promise<n
 }
 
 async function cmdTypeCheck() {
-  logger.step("Running TypeScript type checks...");
   try {
-    await runCommand("bunx", ["tsc", "--noEmit"]);
-    logger.success("Type checks passed");
+    await runCompact("Type Checking", "bunx", ["tsc", "--noEmit"]);
   } catch (_error) {
     logger.warn("TypeScript type checks failed, but continuing build...");
   }
@@ -114,29 +156,23 @@ async function cmdDev(options: any) {
   const port = options.port || 3000;
 
   logger.info("Starting development server...");
-  logger.info("Hot Module Replacement (HMR) enabled");
   logger.info(`Port: ${port}`);
   logger.blank();
 
   try {
-    // Step 0: Build docs (validation happens in CI/build, not during dev)
-    // Dev mode skips validation to allow rapid iteration
-    logger.step("Building documentation...");
-    await runCommand("bun", ["packages/compiler-ts/scripts/build-docs.mts"]);
-    logger.success("Documentation built");
+    await runCompact("Building Documentation", "bun", [
+      "packages/compiler-ts/scripts/build-docs.mts",
+    ]);
 
-    // Step 0.5: Type Check
     if (!options.skipTypeCheck) {
       await cmdTypeCheck();
     }
 
-    // Step 2: Start rspack dev server
     logger.step("Starting rspack dev server...");
     logger.blank();
     logger.raw(`Waiting for file changes...${colors.reset}`);
     logger.blank();
 
-    // Pass port as CLI argument, not just env var
     await runCommand("bun", ["run", "rspack", "serve", "--port", String(port)], {
       env: { ...process.env, PROJECT_NAME: path.basename(projectRoot) },
     });
@@ -154,36 +190,26 @@ async function cmdBuild(options: any) {
   const startTime = Date.now();
 
   try {
-    // Step 1: Clean dist
     if (!options.skipClean) {
-      logger.step("Cleaning dist directory...");
-      await runCommand("rm", ["-rf", "dist"]);
-      logger.success("Dist cleaned");
+      await runCompact("Cleaning Dist", "rm", ["-rf", "dist"]);
+      await runCompact("Cleaning Generated", "rm", [
+        "-rf",
+        join(projectRoot, "apps/web/src/generated"),
+      ]);
     }
 
-    // Step 1.5: Clean generated files to avoid stale artifacts (Crucial for CI consistency)
-    if (!options.skipClean) {
-      logger.step("Cleaning generated directory...");
-      await runCommand("rm", ["-rf", join(projectRoot, "apps/web/src/generated")]);
-      logger.success("Generated files cleaned");
-    }
+    await runCompact("Formatting Code", "bunx", ["biome", "format", "--write", "."]);
+    await runCompact("Building Documentation", "bun", [
+      "packages/compiler-ts/scripts/build-docs.mts",
+    ]);
 
-    // Step 2: Build docs
-    logger.step("Building documentation...");
-    await runCommand("bun", ["packages/compiler-ts/scripts/build-docs.mts"]);
-    logger.success("Documentation built");
-
-    // Step 2.5: Type Check
     if (!options.skipTypeCheck) {
       await cmdTypeCheck();
     }
 
-    // Step 3: Lint (optional)
     if (!options.skipLint) {
-      logger.step("Running lint checks...");
       try {
-        await runCommand("bunx", ["biome", "check", "."]);
-        logger.success("Lint checks passed");
+        await runCompact("Linting Code", "bunx", ["biome", "check", "."]);
       } catch {
         if (options.strict) {
           logger.error("Lint checks failed. Use --no-strict to continue anyway.");
@@ -193,23 +219,12 @@ async function cmdBuild(options: any) {
       }
     }
 
-    // Step 4: Production build
-    logger.step("Running rspack production build...");
-    await runCommand("bun", ["run", "rspack", "build"], {
+    await runCompact("Compiling (Rspack)", "bun", ["run", "rspack", "build"], {
       env: { NODE_ENV: "production" },
     });
-    logger.success("Production bundle created");
 
-    // Step 5: Copy third-party libraries
-    logger.step("Copying third-party libraries...");
-    try {
-      await runCommand("bun", ["packages/compiler-ts/scripts/copy-libs.mts"]);
-      logger.success("Libraries copied to dist/");
-    } catch {
-      logger.warn("Failed to copy libraries (using CopyRspackPlugin fallback)");
-    }
+    await runCompact("Copying Libraries", "bun", ["packages/compiler-ts/scripts/copy-libs.mts"]);
 
-    // Summary
     const duration = ((Date.now() - startTime) / 1000).toFixed(2);
     logger.blank();
     logger.raw(`${colors.bgGreen} BUILD COMPLETE ${colors.reset}`);
@@ -217,7 +232,6 @@ async function cmdBuild(options: any) {
     logger.raw(`Output: dist/${colors.reset}`);
     logger.blank();
 
-    // Show build stats
     if (existsSync(join(projectRoot, "dist"))) {
       const files = readdirSync(join(projectRoot, "dist"));
       const jsFiles = files.filter((f) => f.endsWith(".js"));

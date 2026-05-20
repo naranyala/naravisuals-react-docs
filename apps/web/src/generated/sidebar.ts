@@ -11,14 +11,14 @@ export const sidebarData: SidebarItem[] = [
   {
     "type": "doc",
     "id": "01-getting-started",
-    "label": "Getting Started",
+    "label": "Getting Started Overview",
     "slug": "getting-started",
     "date": null
   },
   {
     "type": "doc",
     "id": "02-architecture",
-    "label": "Architecture",
+    "label": "Architecture Overview",
     "slug": "architecture",
     "date": null
   },

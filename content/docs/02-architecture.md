@@ -1,7 +1,7 @@
 ---
 title: Architecture Overview
 description: Understanding the XAML and Composition engine in Avalonia.
-sidebar_label: Architecture
+sidebar_label: Architecture Overview
 sidebar_position: 3
 tags: ["architecture", "xaml", "rendering"]
 ---

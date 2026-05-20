@@ -85,30 +85,32 @@ export function MockupMenuPanel({
 
   if (isSidebar) {
     return (
-      <div className="context-menu-sidebar">
+      <aside className={clsx("context-menu-sidebar", { open: isOpen })}>
         <div className="context-menu-sidebar-header">
           <span className="context-menu-sidebar-title">Context Menu</span>
           <button type="button" className="context-menu-sidebar-close" onClick={onClose}>
             ×
           </button>
         </div>
-        <div className="mockup-menu-grid">
-          {menuItems.map((item) => (
-            <button
-              key={item.label}
-              type="button"
-              className="mockup-menu-item"
-              onClick={() => {
-                item.onClick();
-                onClose();
-              }}
-            >
-              <span className="menu-item-icon">{item.icon}</span>
-              <span className="menu-item-label">{item.label}</span>
-            </button>
-          ))}
+        <div className="context-menu-sidebar-content">
+          <div className="mockup-menu-grid sidebar-grid">
+            {menuItems.map((item) => (
+              <button
+                key={item.label}
+                type="button"
+                className="mockup-menu-item"
+                onClick={() => {
+                  item.onClick();
+                  onClose();
+                }}
+              >
+                <span className="menu-item-icon">{item.icon}</span>
+                <span className="menu-item-label">{item.label}</span>
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      </aside>
     );
   }
 

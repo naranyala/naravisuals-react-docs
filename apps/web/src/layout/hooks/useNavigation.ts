@@ -28,7 +28,9 @@ export function useNavigation(services: ServiceContainer, sidebarItems: SidebarI
       }
     };
 
-    loadDocs();
+    if (retryCount >= 0) {
+      loadDocs();
+    }
 
     return () => {
       mounted = false;

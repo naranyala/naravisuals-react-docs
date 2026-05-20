@@ -9,6 +9,7 @@ import { MetadataProvider } from "./features/metadata/MetadataProvider";
 import { SearchProvider } from "./features/search/SearchProvider";
 import { MainLayout } from "./layout";
 import { defaultContainer, ServicesProvider } from "./services";
+import "./shared/styles/index.css";
 import "./shared/styles/error-boundary.css";
 
 // Setup goober with React createElement

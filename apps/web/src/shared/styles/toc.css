@@ -1,85 +1,13 @@
 /* ============================================
-   TOC (desktop right)
+   TOC (desktop right) - DISABLED
    ============================================ */
 
 .toc-container {
-  width: var(--toc-width);
-  flex-shrink: 0;
-  position: sticky;
-  top: var(--topbar-height);
-  height: calc(100vh - var(--topbar-height));
-  overflow-y: auto;
-  padding: 1rem 0.5rem 1rem 0.75rem;
-}
-
-.toc {
-  font-size: 0.75rem;
-}
-.toc-title {
-  font-weight: 600;
-  margin-bottom: 0.4rem;
-  font-size: 0.75rem;
-  color: var(--text);
-}
-
-.toc-list {
-  list-style: none;
-  padding-left: 0;
-  border-left: 1.5px solid var(--border);
-}
-.toc-list li {
-  list-style: none;
-  margin-left: 0;
-}
-.toc-list li::marker {
-  content: "";
-  display: none;
-}
-.toc-list li::before,
-.toc-list li::after {
-  content: none;
-  display: none;
-}
-/* Override any .doc-content ul styles */
-.doc-content .toc-list {
-  list-style: none;
-  padding-left: 0;
-}
-.doc-content .toc-list li {
-  list-style: none;
-  padding-left: 0;
-  margin-left: 0;
-}
-.toc-item {
-  padding: 0.15rem 0 0.15rem 0.65rem;
-  border-left: 1.5px solid transparent;
-  margin-left: -1.5px;
-  transition: border-color 0.12s;
-}
-.toc-item a {
-  color: var(--text-secondary);
-  text-decoration: none;
-  display: block;
-  transition: color 0.1s;
-  line-height: 1.4;
-}
-.toc-item a:hover {
-  color: var(--text);
-}
-.toc-item.active {
-  border-left-color: var(--ifm-color-primary);
-}
-.toc-item.active a {
-  color: var(--ifm-color-primary);
-  font-weight: 500;
-}
-.toc-item-level-3 {
-  padding-left: 1.1rem;
-  font-size: 0.7rem;
+  display: none; /* Removed in favor of collapsible TOC inside content */
 }
 
 /* ============================================
-   TOC MOBILE COLLAPSIBLE
+   TOC MOBILE COLLAPSIBLE (Standard for all screens)
    ============================================ */
 
 .toc-mobile-collapsible {
@@ -88,10 +16,11 @@
   z-index: 10;
   margin: 0 0 1.5rem 0;
   border: 1px solid var(--border);
-  border-radius: 0;
+  border-radius: var(--border-radius-md);
   background: var(--bg-surface);
   overflow: hidden;
   width: 100%;
+  box-shadow: var(--shadow-sm);
 }
 
 .toc-mobile-header {
@@ -107,16 +36,16 @@
   font-weight: 600;
   color: var(--text);
   text-align: left;
-  transition: background 0.15s;
+  transition: background var(--transition-fast);
 }
 
 .toc-mobile-header:hover {
-  background: var(--border);
+  background: var(--bg);
 }
 
 .toc-chevron {
   display: inline-block;
-  transition: transform 0.2s ease;
+  transition: transform var(--transition-fast);
   font-size: 0.75rem;
   color: var(--text-secondary);
 }
@@ -125,32 +54,37 @@
   transform: rotate(180deg);
 }
 
-/* When collapsed on mobile, hide the TOC list inside */
 .toc-mobile-collapsible .toc {
-  padding: 0 1rem 0.75rem 1rem;
-  border: none;
+  padding: 0.5rem 1.25rem 1.25rem 1.25rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
 }
 
-.toc-mobile-collapsible .toc-list {
-  border-left-color: transparent;
+.toc-list {
   list-style: none;
   padding-left: 0;
 }
 
-.toc-mobile-collapsible .toc-list li {
-  list-style: none;
-  margin-left: 0;
-  padding-left: 0;
+.toc-item {
+  padding: 0.25rem 0;
 }
 
-.toc-mobile-collapsible .toc-list li::marker {
-  content: "";
-  display: none;
+.toc-item a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
 }
 
-@media (min-width: 1101px) {
-  /* On desktop, hide the collapsible TOC entirely (right sidebar TOC is visible instead) */
-  .toc-mobile-collapsible {
-    display: none;
-  }
+.toc-item a:hover {
+  color: var(--text);
+}
+
+.toc-item.active a {
+  color: var(--ifm-color-primary);
+  font-weight: 500;
+}
+
+.toc-item-level-3 {
+  padding-left: 1.25rem;
+  font-size: 0.8rem;
 }
